@@ -37,7 +37,7 @@ jobs:
           at: /home/circleci/repo
       - run:
           name: Unit Tests
-          command: vendor/bin/phpunit -c test/unit/phpunit.xml --log-junit test/unit/_junit/junit.xml -d memory_limit=512M
+          command: vendor/bin/phpunit -c test/phpunit/phpunit.xml --log-junit test/unit/_junit/junit.xml -d memory_limit=512M
 
       - store_test_results:
           path: test/unit/_junit
