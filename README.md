@@ -72,7 +72,7 @@ function handleSubmit($inputData) {
 	try {
 // Within a try/catch, create a new FormValidator object, passing in the form
 // and the user input.
-		new FormValidator($form, $inputData);
+		Validator::validateForm($form, $inputData);
 	}
 	catch(ValidationException $exception) {
 // If there are any validation errors, we can iterate over them to display

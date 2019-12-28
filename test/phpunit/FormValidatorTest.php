@@ -2,6 +2,7 @@
 namespace Gt\DomValidation\Test;
 
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
@@ -9,15 +10,17 @@ use Gt\DomValidation\Validator;
 use PHPUnit\Framework\TestCase;
 
 class FormValidatorTest extends TestCase {
-	private static function getFormFromHtml(string $html):DOMNode {
+	private static function getFormFromHtml(string $html):DOMElement {
 		$document = new DOMDocument("1.0", "utf-8");
 		$document->loadHTML(Helper::HTML_USERNAME_PASSWORD);
 
-		return $document->getElementsByTagName(
+		/** @var DOMElement $domElement */
+		$domElement = $document->getElementsByTagName(
 			"form"
 		)->item(
 			0
 		);
+		return $domElement;
 	}
 
 	public function testSimpleValidInput() {
@@ -35,5 +38,27 @@ class FormValidatorTest extends TestCase {
 		catch(ValidationException $exception) {}
 
 		self::assertNull($exception);
+	}
+
+	public function testSimpleMissingRequiredInput() {
+		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$validator = new Validator();
+
+		self::expectException(ValidationException::class);
+		self::expectExceptionMessage("There is 1 invalid field");
+
+		$validator->validate($form, [
+			"username" => "g105b",
+		]);
+	}
+
+	public function testSimpleMissingBothRequiredInputs() {
+		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$validator = new Validator();
+
+		self::expectException(ValidationException::class);
+		self::expectExceptionMessage("There are 2 invalid fields");
+
+		$validator->validate($form, ["something" => "nothing"]);
 	}
 }
