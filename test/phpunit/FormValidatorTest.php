@@ -61,4 +61,20 @@ class FormValidatorTest extends TestCase {
 
 		$validator->validate($form, ["something" => "nothing"]);
 	}
+
+	public function testSimpleMissingRequiredInputErrorList() {
+		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, ["username" => "g105b"]);
+		}
+		catch(ValidationException $exception) {
+			foreach($validator->getLastErrorList() as $name => $errors) {
+				self::assertIsArray($errors);
+				self::assertContains("This field is required", $errors);
+				self::assertCount(1, $errors);
+			}
+		}
+	}
 }

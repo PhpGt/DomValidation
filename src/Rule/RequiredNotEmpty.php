@@ -11,6 +11,6 @@ class RequiredNotEmpty extends Rule {
 	}
 
 	public function getErrorMessage(string $name):string {
-		return "$name field is required";
+		return "This field is required";
 	}
 }
