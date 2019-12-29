@@ -1,6 +1,8 @@
 <?php
 namespace Gt\DomValidation\Rule;
 
+use DOMElement;
+
 abstract class Rule {
 	/**
 	 * @var string[] Array of attribute strings that control this rule.
@@ -14,7 +16,7 @@ abstract class Rule {
 		return $this->attributes;
 	}
 
-	abstract public function isValid(string $value):bool;
+	abstract public function isValid(DOMElement $element, string $value):bool;
 
 	abstract public function getErrorMessage(string $name):string;
 }

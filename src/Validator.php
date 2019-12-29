@@ -5,6 +5,7 @@ use DOMElement;
 use DOMNode;
 use DOMXPath;
 use Gt\CssXPath\Translator;
+use Gt\DomValidation\Rule\Rule;
 
 class Validator {
 	/** @var ValidationRules */
@@ -30,6 +31,8 @@ class Validator {
 		$this->errorList = new ErrorList();
 
 		foreach($this->rules->getAttributeRuleList() as $attrString => $ruleArray) {
+			/** @var Rule[] $ruleArray */
+
 			$xpath = new DOMXPath($form->ownerDocument);
 
 			$inputElementList = $xpath->query(
@@ -42,7 +45,7 @@ class Validator {
 				$name = $element->getAttribute("name");
 
 				foreach($ruleArray as $rule) {
-					if(!$rule->isValid($input[$name] ?? "")) {
+					if(!$rule->isValid($element, $input[$name] ?? "")) {
 						$this->errorList->add($element, $rule->getErrorMessage($name));
 					}
 				}

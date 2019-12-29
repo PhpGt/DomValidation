@@ -93,6 +93,49 @@ class FormValidatorTest extends TestCase {
 				self::assertIsArray($errors);
 				self::assertContains("This field is required", $errors);
 				self::assertCount(1, $errors);
+				self::assertEquals("password", $name);
+			}
+		}
+	}
+
+	public function testPattern() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "4921166184521652",
+				"expiry-year" => 20,
+				"expiry-month" => 12,
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testPatternInvalid() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "492116611652", // not enough numbers
+				"expiry-year" => 20,
+				"expiry-month" => 12,
+			]);
+		}
+		catch(ValidationException $exception) {
+			foreach($validator->getLastErrorList() as $name => $errors) {
+				self::assertContains("This field does not match the required pattern", $errors);
+				self::assertCount(1, $errors);
+				self::assertEquals("credit-card", $name);
 			}
 		}
 	}
