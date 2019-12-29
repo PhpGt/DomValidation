@@ -28,10 +28,6 @@ class ErrorList implements Countable, Iterator {
 		return count($this->errorArray);
 	}
 
-	public function getAll():array {
-		return $this->errorArray;
-	}
-
 	public function rewind():void {
 		$this->iteratorKey = 0;
 	}

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class FormValidatorTest extends TestCase {
 	private static function getFormFromHtml(string $html):DOMElement {
 		$document = new DOMDocument("1.0", "utf-8");
-		$document->loadHTML(Helper::HTML_USERNAME_PASSWORD);
+		$document->loadHTML($html);
 
 		/** @var DOMElement $domElement */
 		$domElement = $document->getElementsByTagName(
@@ -68,6 +68,25 @@ class FormValidatorTest extends TestCase {
 
 		try {
 			$validator->validate($form, ["username" => "g105b"]);
+		}
+		catch(ValidationException $exception) {
+			foreach($validator->getLastErrorList() as $name => $errors) {
+				self::assertIsArray($errors);
+				self::assertContains("This field is required", $errors);
+				self::assertCount(1, $errors);
+			}
+		}
+	}
+
+	public function testSimpleEmptyRequiredInputErrorList() {
+		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"username" => "g105b",
+				"password" => ""
+			]);
 		}
 		catch(ValidationException $exception) {
 			foreach($validator->getLastErrorList() as $name => $errors) {
