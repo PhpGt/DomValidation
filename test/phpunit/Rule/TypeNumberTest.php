@@ -67,4 +67,24 @@ class TypeNumberTest extends DomValidationTestCase {
 
 		self::assertNull($exception);
 	}
+
+	public function testNumberFieldNotANumber() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "4921166184521652",
+				"expiry-month" => "January",
+				"expiry-year" => "22",
+				"amount" => "100",
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+
+		}
+	}
 }
