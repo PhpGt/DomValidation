@@ -46,4 +46,25 @@ class TypeNumberTest extends DomValidationTestCase {
 
 		self::assertNull($exception);
 	}
+
+	public function testNumberFieldFloat() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "4921166184521652",
+				"expiry-month" => "01",
+// contrary to this making sense, it is actually valid without a "step":
+				"expiry-year" => "22.345",
+				"amount" => "100",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
 }
