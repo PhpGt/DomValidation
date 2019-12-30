@@ -19,6 +19,27 @@ class TypeNumberTest extends DomValidationTestCase {
 				"credit-card" => "4921166184521652",
 				"expiry-month" => "",
 				"expiry-year" => "",
+				"amount" => "",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testNumberField() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "4921166184521652",
+				"expiry-month" => "01",
+				"expiry-year" => "22",
+				"amount" => "100",
 			]);
 		}
 		catch(ValidationException $exception) {}

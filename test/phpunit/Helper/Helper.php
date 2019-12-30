@@ -36,6 +36,10 @@ HTML;
 		<span>Expiry year</span>
 		<input name="expiry-year" type="number" min="18" max="26" />
 	</label>
+	<label>
+		<span>amount</span>
+		<input name="amount" type="number" />
+	</label>
 	<button name="do" value="buy">Buy the thing!</button>
 </form>
 HTML;
@@ -58,6 +62,10 @@ HTML;
 	<label>
 		<span>Expiry year</span>
 		<input name="expiry-year" type="number" min="18" max="26" required />
+	</label>
+	<label>
+		<span>amount</span>
+		<input name="amount" type="number" required />
 	</label>
 	<button name="do" value="buy">Buy the thing!</button>
 </form>

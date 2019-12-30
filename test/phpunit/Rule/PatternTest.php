@@ -62,13 +62,16 @@ class PatternTest extends DomValidationTestCase {
 		}
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
-			self::assertCount(2, $errorArray);
+			self::assertCount(3, $errorArray);
 			$expiryMonthErrorArray = $errorArray["expiry-month"];
 			$expiryYearErrorArray = $errorArray["expiry-year"];
+			$amountErrorArray = $errorArray["amount"];
 			self::assertCount(1, $expiryMonthErrorArray);
 			self::assertCount(1, $expiryYearErrorArray);
+			self::assertCount(1, $amountErrorArray);
 			self::assertEquals($expiryMonthErrorArray[0], "This field is required");
 			self::assertEquals($expiryYearErrorArray[0], "This field is required");
+			self::assertEquals($amountErrorArray[0], "This field is required");
 		}
 	}
 }

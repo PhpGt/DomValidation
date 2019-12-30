@@ -79,7 +79,7 @@ class RequiredTest extends DomValidationTestCase {
 		}
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
-			self::assertCount(2, $errorArray);
+			self::assertCount(3, $errorArray);
 		}
 	}
 }
