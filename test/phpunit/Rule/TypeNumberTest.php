@@ -84,7 +84,11 @@ class TypeNumberTest extends DomValidationTestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-
+			$expiryMonthError = $errorArray["expiry-month"];
+			self::assertContains(
+				"Field must be a number",
+				$expiryMonthError
+			);
 		}
 	}
 }
