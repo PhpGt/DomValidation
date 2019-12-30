@@ -3,7 +3,7 @@ namespace Gt\DomValidation\Rule;
 
 use DOMElement;
 
-class RequiredNotEmpty extends Rule {
+class Required extends Rule {
 	protected $attributes = [
 		"required",
 	];
