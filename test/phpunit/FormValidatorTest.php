@@ -162,4 +162,41 @@ class FormValidatorTest extends TestCase {
 			self::assertEquals($expiryYearErrorArray[0], "This field is required");
 		}
 	}
+
+	public function testNumberFieldEmpty() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "4921166184521652",
+				"expiry-month" => "",
+				"expiry-year" => "",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testNumberFieldRequiredButEmpty() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"name" => "Jeff Bezos",
+				"credit-card" => "4921166184521652",
+				"expiry-month" => "",
+				"expiry-year" => "",
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(2, $errorArray);
+		}
+	}
 }
