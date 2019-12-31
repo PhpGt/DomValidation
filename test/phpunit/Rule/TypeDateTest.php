@@ -115,6 +115,26 @@ class TypeDateTest extends DomValidationTestCase {
 		}
 	}
 
+	public function testTypeWeekOutOfBounds() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"week" => "2021-W55",
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$monthErrorArray = $errorArray["week"];
+			self::assertContains(
+				"Field must be a week in the format Y-\WW",
+				$monthErrorArray
+			);
+		}
+	}
+
 	public function testTypeDatetimeLocal() {
 		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
 		$validator = new Validator();

@@ -41,22 +41,21 @@ class TypeDate extends Rule {
 			break;
 
 		case "week":
-			if(strstr($value, "-W")) {
-				[$year, $week] = explode("-", $value);
-			}
-			else {
+			$success = preg_match(
+				"/^(?P<year>\d{4})-W(?P<week>\d{1,2})$/",
+				$value,
+				$matches
+			);
+			if(!$success) {
 				return false;
 			}
 
-			$week = ltrim($week, "W");
+			if($matches["week"] < 1 || $matches["week"] > 52) {
+				return false;
+			}
 
 			$dateTime = new DateTime();
-			$dateTime->setISODate($year, $week);
-
-			if(!is_numeric($week)
-			|| $week < 1 || $week > 52) {
-				return false;
-			}
+			$dateTime->setISODate($matches["year"], $matches["week"]);
 
 			break;
 
