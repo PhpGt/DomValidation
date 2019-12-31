@@ -114,4 +114,40 @@ class TypeDateTest extends DomValidationTestCase {
 			);
 		}
 	}
+
+	public function testTypeDatetimeLocal() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"datetime" => "2020-01-13T15:37",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testTypeDatetimeLocalInvalid() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"datetime" => "2020-01-13 15:37:00", // not using the correct ISO-8601 format
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$monthErrorArray = $errorArray["datetime"];
+			self::assertContains(
+				"Field must be a datetime-local in the format Y-m-d\TH:i",
+				$monthErrorArray
+			);
+		}
+	}
 }
