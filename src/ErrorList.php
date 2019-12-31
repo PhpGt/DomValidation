@@ -8,7 +8,6 @@ use Iterator;
 class ErrorList implements Countable, Iterator {
 	protected $errorArray;
 	protected $iteratorKey;
-	protected $iteratorString;
 
 	public function __construct() {
 		$this->errorArray = [];

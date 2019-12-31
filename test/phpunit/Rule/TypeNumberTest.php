@@ -180,6 +180,26 @@ class TypeNumberTest extends DomValidationTestCase {
 		}
 	}
 
+	public function testStepWithMinBust() {
+		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"step2" => -4,
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$step1Error = $errorArray["step2"];
+			self::assertContains(
+				"Field value must not be less than 2",
+				$step1Error
+			);
+		}
+	}
+
 	public function testStepWithMax() {
 		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
 		$validator = new Validator();
