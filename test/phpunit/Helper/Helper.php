@@ -93,4 +93,27 @@ HTML;
 </form>
 HTML;
 
+	const HTML_USER_PROFILE = <<<HTML
+<!doctype html>
+<form method="post">
+	<label>
+		<span>Your email</span>
+		<input name="email" type="email" />
+	</label>
+	<label>
+		<span>Your password</span>
+		<input name="password" type="password" />
+	</label>
+	<label>
+		<span>Your website</span>
+		<input name="website" type="url" />
+	</label>
+	<label>
+		<span>Your date of birth</span>
+		<input name="dob" type="date" />
+	</label>
+</form>
+HTML;
+
+
 }
