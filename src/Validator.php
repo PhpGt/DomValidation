@@ -46,7 +46,10 @@ class Validator {
 
 				foreach($ruleArray as $rule) {
 					if(!$rule->isValid($element, $input[$name] ?? "")) {
-						$this->errorList->add($element, $rule->getErrorMessage($name));
+						$this->errorList->add(
+							$element,
+							$rule->getHint($element, $input[$name] ?? "")
+						);
 					}
 				}
 			}

@@ -71,5 +71,26 @@ HTML;
 </form>
 HTML;
 
+	const HTML_STEP_NUMBERS = <<<HTML
+<!doctype html>
+<form method="post">
+	<label>
+		<span>Basic step of 7</span>
+		<input name="step1" type="number" step="7" />
+	</label>
+	<label>
+		<span>Step of 7, starting from 2</span>
+		<input name="step2" type="number" step="7" min="2" />
+	</label>
+	<label>
+		<span>Step of 7.2 (max 3 and a bit steps up)</span>
+		<input name="step3" type="range" step="7.2" max="25.1" />
+	</label>
+	<label>
+		<span>Step of 7.2, starting from 3.5 (max 3 steps up)</span>
+		<input name="step4" type="range" step="7.2" min="3.5" max="25.1" />
+	</label>
+</form>
+HTML;
 
 }

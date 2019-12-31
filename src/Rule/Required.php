@@ -12,7 +12,7 @@ class Required extends Rule {
 		return !empty($value);
 	}
 
-	public function getErrorMessage(string $name):string {
+	public function getHint(DOMElement $element, string $value):string {
 		return "This field is required";
 	}
 }

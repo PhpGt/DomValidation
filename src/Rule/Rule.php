@@ -18,5 +18,5 @@ abstract class Rule {
 
 	abstract public function isValid(DOMElement $element, string $value):bool;
 
-	abstract public function getErrorMessage(string $name):string;
+	abstract public function getHint(DOMElement $element, string $value):string;
 }

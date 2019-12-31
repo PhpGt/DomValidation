@@ -13,7 +13,7 @@ class Pattern extends Rule {
 		return preg_match($pattern, $value);
 	}
 
-	public function getErrorMessage(string $name):string {
+	public function getHint(DOMElement $element, string $value):string {
 		return "This field does not match the required pattern";
 	}
 }
