@@ -115,5 +115,32 @@ HTML;
 </form>
 HTML;
 
+	const HTML_DATE_TIME = <<<HTML
+<!doctype html>
+<form method="post">
+	<label>
+		<span>Starting date</span>
+		<input name="date" type="date" />
+	</label>
+	<label>
+		<span>Month of activity</span>
+		<input name="month" type="month" />
+	</label>
+	<label>
+		<span>Week of holiday</span>
+		<input name="week" type="week" />
+	</label>
+	<label>
+		<span>Time of daily reset</span>
+		<input name="time" type="time" />
+	</label>
+	<label>
+		<span>Payment date and time</span>
+		<input name="datetime" type="datetime-local" />
+	</label>
+</form>
+HTML;
+
+
 
 }

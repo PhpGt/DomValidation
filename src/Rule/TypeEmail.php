@@ -9,7 +9,8 @@ class TypeEmail extends Rule {
 	];
 
 	public function isValid(DOMElement $element, string $value):bool {
-		return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
+		return $value === ""
+		|| filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
 	}
 
 	public function getHint(DOMElement $element, string $value):string {
