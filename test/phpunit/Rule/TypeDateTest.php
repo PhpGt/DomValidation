@@ -37,8 +37,80 @@ class TypeDateTest extends DomValidationTestCase {
 			self::assertCount(1, $errorArray);
 			$dobErrorArray = $errorArray["dob"];
 			self::assertContains(
-				"Field must be a date in the format YYYY-mm-dd",
+				"Field must be a date in the format Y-m-d",
 				$dobErrorArray
+			);
+		}
+	}
+
+	public function testTypeMonth() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"month" => "2020-11",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testTypeMonthInvalid() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"month" => "November 2020",
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$monthErrorArray = $errorArray["month"];
+			self::assertContains(
+				"Field must be a month in the format Y-m",
+				$monthErrorArray
+			);
+		}
+	}
+
+	public function testTypeWeek() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"week" => "2021-W24",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testTypeWeekInvalid() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"week" => "2021, Week 24",
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$monthErrorArray = $errorArray["week"];
+			self::assertContains(
+				"Field must be a week in the format Y-\WW",
+				$monthErrorArray
 			);
 		}
 	}
