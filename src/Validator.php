@@ -33,10 +33,11 @@ class Validator {
 		foreach($this->rules->getAttributeRuleList() as $attrString => $ruleArray) {
 			/** @var Rule[] $ruleArray */
 
-			$xpath = new DOMXPath($form->ownerDocument);
+			$cssSelector = "[$attrString]";
 
+			$xpath = new DOMXPath($form->ownerDocument);
 			$inputElementList = $xpath->query(
-				new Translator("[$attrString]")
+				new Translator($cssSelector)
 			);
 
 			for($i = 0, $len = $inputElementList->length; $i < $len; $i++) {
