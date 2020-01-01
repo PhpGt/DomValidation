@@ -141,6 +141,37 @@ HTML;
 </form>
 HTML;
 
+	const HTML_SELECT = <<<HTML
+<!doctype html>
+<form method="post">
+	<label>
+		<span>Currency</span>
+		<select name="currency" required>
+			<option></option>
+			<option value="GBP">£ Pound (GBP)</option>		
+			<option value="USD">$ Dollar (USD)</option>		
+			<option value="EUR">€ Euro (EUR)</option>		
+		</select>	
+	</label>
+	
+	<label>
+		<span>Sort order</span>
+		<select name="sort">
+			<option>Ascending</option>		
+			<option>Descending</option>		
+		</select>
+	</label>
+	
+	<label>
+		<span>Show connections</span>
+		<select name="connections">
+			<option value="">All</option>
+			<option value="native">Native only</option>
+			<option value="complex">Complex only</option>
+		</select>
+	</label>
+</form>
+HTML;
 
 
 }
