@@ -3,6 +3,7 @@ namespace Gt\DomValidation;
 
 use Gt\DomValidation\Rule\Pattern;
 use Gt\DomValidation\Rule\Required;
+use Gt\DomValidation\Rule\SelectElement;
 use Gt\DomValidation\Rule\TypeDate;
 use Gt\DomValidation\Rule\TypeEmail;
 use Gt\DomValidation\Rule\TypeNumber;
@@ -17,6 +18,7 @@ class DefaultValidationRules extends ValidationRules {
 			new TypeEmail(),
 			new TypeUrl(),
 			new TypeDate(),
+			new SelectElement(),
 		];
 	}
 }
