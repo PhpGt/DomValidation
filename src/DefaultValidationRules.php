@@ -6,6 +6,7 @@ use Gt\DomValidation\Rule\Required;
 use Gt\DomValidation\Rule\TypeDate;
 use Gt\DomValidation\Rule\TypeEmail;
 use Gt\DomValidation\Rule\TypeNumber;
+use Gt\DomValidation\Rule\TypeUrl;
 
 class DefaultValidationRules extends ValidationRules {
 	protected function setRuleList() {
@@ -14,6 +15,7 @@ class DefaultValidationRules extends ValidationRules {
 			new Pattern(),
 			new TypeNumber(),
 			new TypeEmail(),
+			new TypeUrl(),
 			new TypeDate(),
 		];
 	}
