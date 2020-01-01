@@ -170,4 +170,40 @@ class TypeDateTest extends DomValidationTestCase {
 			);
 		}
 	}
+
+	public function testTypeTime() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"time" => "15:37",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testTypeTimeInvalid() {
+		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"time" => "3:37pm",
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$timeErrorArray = $errorArray["time"];
+			self::assertContains(
+				"Field must be a time in the format H:i",
+				$timeErrorArray
+			);
+		}
+	}
 }

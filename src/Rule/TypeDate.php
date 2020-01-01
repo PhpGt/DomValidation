@@ -10,12 +10,14 @@ class TypeDate extends Rule {
 	const FORMAT_MONTH = "Y-m";
 	const FORMAT_WEEK = "Y-\WW";
 	const FORMAT_DATETIME_LOCAL = "Y-m-d\TH:i";
+	const FORMAT_TIME = "H:i";
 
 	protected $attributes = [
 		"type=date",
 		"type=month",
 		"type=week",
 		"type=datetime-local",
+		"type=time",
 	];
 
 	public function isValid(DOMElement $element, string $value):bool {
@@ -65,6 +67,13 @@ class TypeDate extends Rule {
 				$value
 			);
 			break;
+
+		case "time":
+			$dateTime = DateTime::createFromFormat(
+				self::FORMAT_TIME,
+				$value
+			);
+			break;
 		}
 
 		return $dateTime !== false;
@@ -89,6 +98,10 @@ class TypeDate extends Rule {
 
 		case "datetime-local":
 			$format = self::FORMAT_DATETIME_LOCAL;
+			break;
+
+		case "time":
+			$format = self::FORMAT_TIME;
 			break;
 		}
 
