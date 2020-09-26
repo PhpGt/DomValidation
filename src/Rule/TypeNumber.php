@@ -72,5 +72,7 @@ class TypeNumber extends Rule {
 				return "Field value must be a multiple of $step";
 			}
 		}
+
+		return "Field must be a number";
 	}
 }
