@@ -71,8 +71,7 @@ function handleSubmit($inputData) {
 	$validator = new Validator();
 
 	try {
-// Within a try/catch, create a new FormValidator object, passing in the form
-// and the user input.
+// Within a try/catch, pass the form and the user input into the Validator.
 		$validator->validate($form, $inputData);
 	}
 	catch(ValidationException $exception) {
