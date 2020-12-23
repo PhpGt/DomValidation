@@ -10,8 +10,8 @@
 
 	"require": {
 		"php": ">=7.2",
-		"phpgt/cssxpath": "*",
-		"ext-dom": "*"
+		"ext-dom": "*",
+		"phpgt/cssxpath": "1.*"
 	},
 
 	"require-dev": {
