@@ -2,20 +2,15 @@
 namespace Gt\DomValidation;
 
 use DOMElement;
-use DOMNode;
 use DOMXPath;
 use Gt\CssXPath\Translator;
 use Gt\DomValidation\Rule\Rule;
 
 class Validator {
-	/** @var ValidationRules */
-	protected $rules;
-	/** @var array */
-	protected $errors;
-	/** @var ErrorList */
-	protected $errorList;
+	protected ?ValidationRules $rules;
+	protected ErrorList $errorList;
 
-	public function __construct(ValidationRules $rules = null) {
+	public function __construct(?ValidationRules $rules = null) {
 		if(is_null($rules)) {
 			$rules = new DefaultValidationRules();
 		}
@@ -25,7 +20,7 @@ class Validator {
 
 	/**
 	 * @param DOMElement $form Form to validate
-	 * @param array $input Associative array of user input
+	 * @param array<string, string> $input Associative array of user input
 	 */
 	public function validate(DOMElement $form, array $input):void {
 		$this->errorList = new ErrorList();

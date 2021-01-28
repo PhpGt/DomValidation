@@ -4,7 +4,7 @@ namespace Gt\DomValidation\Rule;
 use DOMElement;
 
 class TypeNumber extends Rule {
-	protected $attributes = [
+	protected array $attributes = [
 		"type=number",
 		"type=range",
 	];
@@ -21,6 +21,8 @@ class TypeNumber extends Rule {
 		if(!is_numeric($value)) {
 			return false;
 		}
+
+		$value = (float)$value;
 
 		if($min !== ""
 		&& $value < $min) {
@@ -51,6 +53,8 @@ class TypeNumber extends Rule {
 		if(!is_numeric($value)) {
 			return "Field must be a number";
 		}
+
+		$value = (float)$value;
 
 		if($min !== ""
 		&& $value < $min) {

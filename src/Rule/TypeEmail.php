@@ -4,7 +4,7 @@ namespace Gt\DomValidation\Rule;
 use DOMElement;
 
 class TypeEmail extends Rule {
-	protected $attributes = [
+	protected array $attributes = [
 		"type=email",
 	];
 

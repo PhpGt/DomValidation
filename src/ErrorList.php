@@ -5,9 +5,11 @@ use DOMElement;
 use Countable;
 use Iterator;
 
+/** @implements Iterator<string, string[]> */
 class ErrorList implements Countable, Iterator {
-	protected $errorArray;
-	protected $iteratorKey;
+	/** @var array<string, string[]> */
+	protected array $errorArray;
+	protected int $iteratorKey;
 
 	public function __construct() {
 		$this->errorArray = [];
@@ -20,7 +22,7 @@ class ErrorList implements Countable, Iterator {
 			$this->errorArray[$name] = [];
 		}
 
-		$this->errorArray[$name] []= $errorMessage;
+		array_push($this->errorArray[$name], $errorMessage);
 	}
 
 	public function count():int {
