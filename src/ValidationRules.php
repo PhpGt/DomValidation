@@ -5,21 +5,21 @@ use Gt\DomValidation\Rule\Rule;
 
 abstract class ValidationRules {
 	/** @var Rule[] */
-	protected $ruleList;
+	protected array $ruleList;
 
 	public function __construct() {
 		$this->setRuleList();
 	}
 
 	/** Must instantiate $this->ruleList as an array of Rule objects */
-	abstract protected function setRuleList();
+	abstract protected function setRuleList():void;
 
 	/**
 	 * Returns an associative array of rules affected by each attribute.
 	 * The key of the array is the DOMElement attribute name that affects
 	 * the rule(s). The value of the array is an array of Rule objects.
 	 *
-	 * @return Rule[]
+	 * @return array<string, Rule[]>
 	 */
 	public function getAttributeRuleList():array {
 		$attributeRuleList = [];
@@ -30,7 +30,7 @@ abstract class ValidationRules {
 					$attributeRuleList[$attrString] = [];
 				}
 
-				$attributeRuleList[$attrString] []= $rule;
+				array_push($attributeRuleList[$attrString], $rule);
 			}
 		}
 

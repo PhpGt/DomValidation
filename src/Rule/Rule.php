@@ -10,10 +10,11 @@ abstract class Rule {
 	 * equals sign (e.g. "type=email"). For attributes without a value, pass the
 	 * attribute name on its own (e.g. "required").
 	 */
-	protected $attributes = [
+	protected array $attributes = [
 		"name"
 	];
 
+	/** @return string[] */
 	public function getAttributes():array {
 		return $this->attributes;
 	}
