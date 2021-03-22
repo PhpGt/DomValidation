@@ -10,7 +10,7 @@ use Gt\DomValidation\Rule\TypeNumber;
 use Gt\DomValidation\Rule\TypeUrl;
 
 class DefaultValidationRules extends ValidationRules {
-	protected function setRuleList() {
+	protected function setRuleList():void {
 		$this->ruleList = [
 			new Required(),
 			new Pattern(),

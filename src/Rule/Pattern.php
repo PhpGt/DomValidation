@@ -4,7 +4,7 @@ namespace Gt\DomValidation\Rule;
 use DOMElement;
 
 class Pattern extends Rule {
-	protected $attributes = [
+	protected array $attributes = [
 		"pattern",
 	];
 

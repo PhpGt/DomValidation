@@ -12,7 +12,7 @@ class TypeDate extends Rule {
 	const FORMAT_DATETIME_LOCAL = "Y-m-d\TH:i";
 	const FORMAT_TIME = "H:i";
 
-	protected $attributes = [
+	protected array $attributes = [
 		"type=date",
 		"type=month",
 		"type=week",

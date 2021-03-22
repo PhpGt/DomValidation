@@ -4,7 +4,7 @@ namespace Gt\DomValidation\Rule;
 use DOMElement;
 
 class Required extends Rule {
-	protected $attributes = [
+	protected array $attributes = [
 		"required",
 	];
 
