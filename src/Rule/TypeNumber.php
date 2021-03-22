@@ -4,7 +4,8 @@ namespace Gt\DomValidation\Rule;
 use DOMElement;
 
 class TypeNumber extends Rule {
-	protected $attributes = [
+	/** @var string[] */
+	protected array $attributes = [
 		"type=number",
 		"type=range",
 	];
@@ -47,33 +48,33 @@ class TypeNumber extends Rule {
 		$min = $element->getAttribute("min") ?: null;
 		$max = $element->getAttribute("max") ?: null;
 		$step = $element->getAttribute("step") ?: null;
-		$error = "";
+		$hint = "";
 
 		if(is_numeric($value)) {
 			$value = (float)$value;
 
 			if(!is_null($min)
 			&& $value < $min) {
-				$error = "Field value must not be less than $min";
+				$hint = "Field value must not be less than $min";
 			}
 			elseif(!is_null($max)
 			&& $value > $max) {
-				$error = "Field value must not be greater than $max";
+				$hint = "Field value must not be greater than $max";
 			}
 			elseif(!is_null($step)) {
 				if(!is_null($min)
 				&& ($value - $min) % $step !== 0) {
-					$error = "Field value must be $min plus a multiple of $step";
+					$hint = "Field value must be $min plus a multiple of $step";
 				}
 				elseif($value % $step !== 0) {
-					$error = "Field value must be a multiple of $step";
+					$hint = "Field value must be a multiple of $step";
 				}
 			}
 		}
 		else {
-			$error = "Field must be a number";
+			$hint = "Field must be a number";
 		}
 
-		return $error;
+		return $hint;
 	}
 }
