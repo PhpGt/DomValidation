@@ -44,35 +44,36 @@ class TypeNumber extends Rule {
 	}
 
 	public function getHint(DOMElement $element, string $value):string {
-		$min = $element->getAttribute("min") ?? null;
-		$max = $element->getAttribute("max") ?? null;
-		$step = $element->getAttribute("step") ?? null;
+		$min = $element->getAttribute("min") ?: null;
+		$max = $element->getAttribute("max") ?: null;
+		$step = $element->getAttribute("step") ?: null;
+		$error = "";
 
-		if(!is_numeric($value)) {
-			return "Field must be a number";
-		}
+		if(is_numeric($value)) {
+			$value = (float)$value;
 
-		if($min !== ""
-		&& $value < $min) {
-			return "Field value must not be less than $min";
-		}
-
-		if($max !== ""
-		&& $value > $max) {
-			return "Field value must not be greater than $max";
-		}
-
-		if(!empty($step)) {
-			if($min
-			&& ($value - $min) % $step !== 0) {
-				return "Field value must be $min plus a multiple of $step";
+			if(!is_null($min)
+			&& $value < $min) {
+				$error = "Field value must not be less than $min";
 			}
-
-			if($value % $step !== 0) {
-				return "Field value must be a multiple of $step";
+			elseif(!is_null($max)
+			&& $value > $max) {
+				$error = "Field value must not be greater than $max";
+			}
+			elseif(!is_null($step)) {
+				if(!is_null($min)
+				&& ($value - $min) % $step !== 0) {
+					$error = "Field value must be $min plus a multiple of $step";
+				}
+				elseif($value % $step !== 0) {
+					$error = "Field value must be a multiple of $step";
+				}
 			}
 		}
+		else {
+			$error = "Field must be a number";
+		}
 
-		return "Field must be a number";
+		return $error;
 	}
 }
