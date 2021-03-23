@@ -40,7 +40,6 @@ class RequiredTest extends DomValidationTestCase {
 			foreach($validator->getLastErrorList() as $name => $errors) {
 				self::assertIsArray($errors);
 				self::assertContains("This field is required", $errors);
-				self::assertCount(1, $errors);
 			}
 		}
 	}
@@ -59,7 +58,6 @@ class RequiredTest extends DomValidationTestCase {
 			foreach($validator->getLastErrorList() as $name => $errors) {
 				self::assertIsArray($errors);
 				self::assertContains("This field is required", $errors);
-				self::assertCount(1, $errors);
 				self::assertEquals("password", $name);
 			}
 		}

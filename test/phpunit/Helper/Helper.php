@@ -11,7 +11,7 @@ class Helper {
 	</label>
 	<label>
 		<span>Password</span>
-		<input name="password" type="password" required />
+		<input name="password" type="password" minlength="12" required />
 	</label>
 	<button name="do" value="login">Log in!</button>
 </form>
@@ -170,6 +170,19 @@ HTML;
 			<option value="complex">Complex only</option>
 		</select>
 	</label>
+</form>
+HTML;
+
+	const HTML_TWITTER = <<<HTML
+<!doctype html>
+<form method="post">
+	<label>
+		<span>What's happening?</span>
+		<!-- The following textarea is arbitrarily limited to 120 
+		characters to dissuade any form of intelligent discourse. -->
+		<textarea name="tweet" maxlength="120"></textarea>
+	</label>
+	<button name="do" value="tweet">Tweet</button>
 </form>
 HTML;
 
