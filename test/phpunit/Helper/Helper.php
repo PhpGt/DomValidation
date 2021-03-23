@@ -53,7 +53,7 @@ HTML;
 	</label>
 	<label>
 		<span>Credit Card number</span>
-		<input name="credit-card" pattern="\d{16}" required />
+		<input name="credit-card" pattern="(\d\s?){16}" title="The 16 digit number on the front of your card" required />
 	</label>
 	<label>
 		<span>Expiry month</span>
