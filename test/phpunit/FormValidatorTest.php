@@ -15,7 +15,7 @@ class FormValidatorTest extends DomValidationTestCase {
 		try {
 			$validator->validate($form, [
 				"username" => "g105b",
-				"password" => "hunter2",
+				"password" => "hunter222222",
 			]);
 		}
 		catch(ValidationException $exception) {
