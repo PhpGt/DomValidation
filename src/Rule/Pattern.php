@@ -14,6 +14,12 @@ class Pattern extends Rule {
 	}
 
 	public function getHint(DOMElement $element, string $value):string {
-		return "This field does not match the required pattern";
+		$hint = "This field does not match the required pattern";
+
+		if($title = $element->getAttribute("title")) {
+			$hint .= ": $title";
+		}
+
+		return $hint;
 	}
 }

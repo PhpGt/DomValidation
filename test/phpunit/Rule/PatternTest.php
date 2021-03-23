@@ -74,4 +74,23 @@ class PatternTest extends DomValidationTestCase {
 			self::assertEquals($amountErrorArray[0], "This field is required");
 		}
 	}
+
+	public function testPatternTitleShown() {
+		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"name" => "Elon Musk",
+				"creit-card" => "420420"
+			]);
+		}
+		catch(ValidationException $exception) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertContains(
+				"This field does not match the required pattern: The 16 digit number on the front of your card",
+				$errorArray["credit-card"]
+			);
+		}
+	}
 }
