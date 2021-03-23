@@ -8,19 +8,6 @@
 
 	"type": "library",
 
-	"repositories": [
-		{
-			"type": "path",
-			"url": "/home/g105b/Code/PhpGt/Dom",
-			"options": {
-				"symlink": true
-			}
-		}
-	],
-
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-
 	"require": {
 		"php": ">=8.0",
 		"ext-dom": "*",
