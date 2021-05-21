@@ -1,6 +1,8 @@
 <?php
 namespace Gt\DomValidation;
 
+use Gt\DomValidation\Rule\MaxLength;
+use Gt\DomValidation\Rule\MinLength;
 use Gt\DomValidation\Rule\Pattern;
 use Gt\DomValidation\Rule\Required;
 use Gt\DomValidation\Rule\SelectElement;
@@ -19,6 +21,8 @@ class DefaultValidationRules extends ValidationRules {
 			new TypeUrl(),
 			new TypeDate(),
 			new SelectElement(),
+			new MinLength(),
+			new MaxLength(),
 		];
 	}
 }
