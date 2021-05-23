@@ -61,11 +61,13 @@ Validation rules present in the above HTML form:
 + `nation` input must be one of the three enumerations present in the `<select>` element.
 
 ```php
+use Gt\Dom\HTMLDocument;
 use \Gt\DomValidation\Validator;
 use \Gt\DomValidation\ValidationException;
 
 // Assume this function is triggered when POST data arrives.
 function handleSubmit($inputData) {
+	$document = new HTMLDocument(file_get_contents("example-form.html"));
 // First, obtain a reference to the form we wish to validate.
 	$form = $document->querySelector("#example-form");
 	$validator = new Validator();
@@ -74,7 +76,7 @@ function handleSubmit($inputData) {
 // Within a try/catch, pass the form and the user input into the Validator.
 		$validator->validate($form, $inputData);
 	}
-	catch(ValidationException $exception) {
+	catch(ValidationException) {
 // If there are any validation errors, we can iterate over them to display
 // to the page, and return early as to not action the user input.
 		foreach($validator->getLastErrorList() as $name => $message) {

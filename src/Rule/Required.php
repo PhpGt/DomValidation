@@ -1,18 +1,18 @@
 <?php
 namespace Gt\DomValidation\Rule;
 
-use DOMElement;
+use Gt\Dom\Element;
 
 class Required extends Rule {
 	protected array $attributes = [
 		"required",
 	];
 
-	public function isValid(DOMElement $element, string $value):bool {
+	public function isValid(Element $element, string $value):bool {
 		return !empty($value);
 	}
 
-	public function getHint(DOMElement $element, string $value):string {
+	public function getHint(Element $element, string $value):string {
 		return "This field is required";
 	}
 }

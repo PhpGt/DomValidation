@@ -2,7 +2,7 @@
 namespace Gt\DomValidation\Rule;
 
 use DateTime;
-use DOMElement;
+use Gt\Dom\Element;
 
 class TypeDate extends Rule {
 // ISO-8601 derived date formats:
@@ -20,7 +20,7 @@ class TypeDate extends Rule {
 		"type=time",
 	];
 
-	public function isValid(DOMElement $element, string $value):bool {
+	public function isValid(Element $element, string $value):bool {
 		if($value === "") {
 			return true;
 		}
@@ -79,7 +79,7 @@ class TypeDate extends Rule {
 		return $dateTime !== false;
 	}
 
-	public function getHint(DOMElement $element, string $value):string {
+	public function getHint(Element $element, string $value):string {
 		$format = null;
 		$type = $element->getAttribute("type");
 
