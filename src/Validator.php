@@ -21,8 +21,6 @@ class Validator {
 		$this->errorList = new ErrorList();
 
 		foreach($this->rules->getAttributeRuleList() as $attrString => $ruleArray) {
-			/** @var Rule[] $ruleArray */
-
 			foreach($form->querySelectorAll("[$attrString]") as $element) {
 				$name = $element->getAttribute("name");
 
