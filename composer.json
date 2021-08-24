@@ -11,7 +11,7 @@
 	"require": {
 		"php": ">=8.0",
 		"phpgt/cssxpath": "1.*",
-		"phpgt/dom": "dev-facade"
+		"phpgt/dom": "dev-master"
 	},
 
 	"require-dev": {
