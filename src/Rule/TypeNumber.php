@@ -1,7 +1,7 @@
 <?php
 namespace Gt\DomValidation\Rule;
 
-use DOMElement;
+use Gt\Dom\Element;
 
 class TypeNumber extends Rule {
 	/** @var string[] */
@@ -10,7 +10,7 @@ class TypeNumber extends Rule {
 		"type=range",
 	];
 
-	public function isValid(DOMElement $element, string $value):bool {
+	public function isValid(Element $element, string $value):bool {
 		$min = $element->getAttribute("min") ?: null;
 		$max = $element->getAttribute("max") ?: null;
 		$step = $element->getAttribute("step") ?: null;
@@ -49,7 +49,7 @@ class TypeNumber extends Rule {
 		return $validity;
 	}
 
-	public function getHint(DOMElement $element, string $value):string {
+	public function getHint(Element $element, string $value):string {
 		$min = $element->getAttribute("min") ?: null;
 		$max = $element->getAttribute("max") ?: null;
 		$step = $element->getAttribute("step") ?: null;

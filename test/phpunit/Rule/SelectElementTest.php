@@ -81,15 +81,32 @@ class SelectElementTest extends DomValidationTestCase {
 		}
 	}
 
-	public function testSelectValueInvalid() {
+	public function testSelectValue_textContent() {
 		$form = self::getFormFromHtml(Helper::HTML_SELECT);
 		$validator = new Validator();
+
+		$exception = null;
 
 		try {
 			$validator->validate($form, [
 				"currency" => "USD",
 				"connections" => "All", // This is invalid
 // There is an <option> with "All" as its text content, but not with this value.
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testSelectValue_invalid() {
+		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"currency" => "USD",
+				"connections" => "Unknown", // This is invalid
 			]);
 		}
 		catch(ValidationException $exception) {

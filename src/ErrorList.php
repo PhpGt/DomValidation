@@ -1,8 +1,8 @@
 <?php
 namespace Gt\DomValidation;
 
-use DOMElement;
 use Countable;
+use Gt\Dom\Element;
 use Iterator;
 
 /** @implements Iterator<string, string[]> */
@@ -15,7 +15,7 @@ class ErrorList implements Countable, Iterator {
 		$this->errorArray = [];
 	}
 
-	public function add(DOMElement $element, string $errorMessage):void {
+	public function add(Element $element, string $errorMessage):void {
 		$name = $element->getAttribute("name");
 
 		if(!isset($this->errorArray[$name])) {

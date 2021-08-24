@@ -1,7 +1,7 @@
 <?php
 namespace Gt\DomValidation\Rule;
 
-use DOMElement;
+use Gt\Dom\Element;
 
 abstract class Rule {
 	/**
@@ -19,7 +19,7 @@ abstract class Rule {
 		return $this->attributes;
 	}
 
-	abstract public function isValid(DOMElement $element, string $value):bool;
+	abstract public function isValid(Element $element, string $value):bool;
 
-	abstract public function getHint(DOMElement $element, string $value):string;
+	abstract public function getHint(Element $element, string $value):string;
 }

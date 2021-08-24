@@ -10,9 +10,8 @@
 
 	"require": {
 		"php": ">=8.0",
-		"ext-dom": "*",
 		"phpgt/cssxpath": "1.*",
-		"phpgt/dom": "dev-facade"
+		"phpgt/dom": "dev-master"
 	},
 
 	"require-dev": {
@@ -29,5 +28,12 @@
 		"psr-4": {
 			"Gt\\DomValidation\\Test\\": "./test/phpunit"
 		}
-	}
+	},
+
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/PhpGt"
+		}
+	]
 }

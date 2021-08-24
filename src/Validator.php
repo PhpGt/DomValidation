@@ -1,9 +1,7 @@
 <?php
 namespace Gt\DomValidation;
 
-use DOMElement;
-use DOMXPath;
-use Gt\CssXPath\Translator;
+use Gt\Dom\Element;
 use Gt\DomValidation\Rule\Rule;
 
 class Validator {
@@ -18,26 +16,12 @@ class Validator {
 		$this->rules = $rules;
 	}
 
-	/**
-	 * @param DOMElement $form Form to validate
-	 * @param array<string, string> $input Associative array of user input
-	 */
-	public function validate(DOMElement $form, array $input):void {
+	/** @param array<string, string> $input Associative array of user input */
+	public function validate(Element $form, array $input):void {
 		$this->errorList = new ErrorList();
 
 		foreach($this->rules->getAttributeRuleList() as $attrString => $ruleArray) {
-			/** @var Rule[] $ruleArray */
-
-			$cssSelector = "[$attrString]";
-
-			$xpath = new DOMXPath($form->ownerDocument);
-			$inputElementList = $xpath->query(
-				new Translator($cssSelector)
-			);
-
-			for($i = 0, $len = $inputElementList->length; $i < $len; $i++) {
-				/** @var DOMElement $element */
-				$element = $inputElementList->item($i);
+			foreach($form->querySelectorAll("[$attrString]") as $element) {
 				$name = $element->getAttribute("name");
 
 				foreach($ruleArray as $rule) {
