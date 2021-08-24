@@ -58,12 +58,13 @@ Validation rules present in the above HTML form:
 
 + `name` input is required to be not empty.
 + `email` input is required to be not empty, and must be a valid email address.
++ `account` input is not required, but when a value is submitted, it must match the provided regular expression (any number of non-whitespace characters followed by up to 3 numbers).
 + `nation` input must be one of the three enumerations present in the `<select>` element.
 
 ```php
 use Gt\Dom\HTMLDocument;
-use \Gt\DomValidation\Validator;
-use \Gt\DomValidation\ValidationException;
+use Gt\DomValidation\Validator;
+use Gt\DomValidation\ValidationException;
 
 // Assume this function is triggered when POST data arrives.
 function handleSubmit($inputData) {
