@@ -59,4 +59,27 @@ class RadioElementTest extends DomValidationTestCase {
 
 		self::assertNull($exception);
 	}
+
+
+
+	public function testRadioTextContentInvalid() {
+		$form = self::getFormFromHtml(Helper::HTML_RADIO);
+		$validator = new Validator();
+
+		try {
+			$validator->validate($form, [
+				"currency" => "USD",
+				"sort" => "rand", // This <option> does not exist
+			]);
+		}
+		catch(ValidationException) {
+			$errorArray = iterator_to_array($validator->getLastErrorList());
+			self::assertCount(1, $errorArray);
+			$currencyErrorArray = $errorArray["sort"];
+			self::assertContains(
+				"This field's value must match one of the available options",
+				$currencyErrorArray
+			);
+		}
+	}
 }
