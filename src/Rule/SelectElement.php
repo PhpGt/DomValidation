@@ -9,7 +9,7 @@ class SelectElement extends Rule {
 	public function isValid(Element $element, string $value):bool {
 		$availableValues = [];
 
-		if($element->tagName !== "SELECT") {
+		if(!$element instanceof HTMLSelectElement) {
 			return true;
 		}
 		/** @var HTMLSelectElement $element */

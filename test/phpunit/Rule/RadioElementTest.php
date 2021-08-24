@@ -60,8 +60,6 @@ class RadioElementTest extends DomValidationTestCase {
 		self::assertNull($exception);
 	}
 
-
-
 	public function testRadioTextContentInvalid() {
 		$form = self::getFormFromHtml(Helper::HTML_RADIO);
 		$validator = new Validator();
