@@ -173,6 +173,57 @@ HTML;
 </form>
 HTML;
 
+	const HTML_RADIO = <<<HTML
+<!doctype html>
+<form method="post">
+	<fieldset>
+		<legend>Currency</legend>
+		<label>
+			<input type="radio" name="currency" value="GBP" required />
+			<span>£ Pound (GBP)</span>
+		</label>
+		<label>
+			<input type="radio" name="currency" value="USD" required />
+			<span>$ Dollar (USD)</span>
+		</label>
+		<label>
+			<input type="radio" name="currency" value="EUR" required />
+			<span>€ Pound (EUR)</span>
+		</label>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Sort order</legend>
+		<label>
+			<input type="radio" name="sort" value="asc" />
+			<span>Ascending</span>
+		</label>
+		<label>
+			<input type="radio" name="sort" value="desc" />
+			<span>Descending</span>
+		</label>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Show connections</legend>
+		<label>
+			<input type="radio" name="connections" value="" />
+			<span>All</span>		
+		</label>
+		<label>
+			<input type="radio" name="connections" value="native" />
+			<span>Native only</span>		
+		</label>
+		<label>
+			<input type="radio" name="connections" value="complex" />
+			<span>Complex only</span>		
+		</label>
+	</fieldset>
+	
+	<button>Submit</button>
+</form>
+HTML;
+
 	const HTML_TWITTER = <<<HTML
 <!doctype html>
 <form method="post">

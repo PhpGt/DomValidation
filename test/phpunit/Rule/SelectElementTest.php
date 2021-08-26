@@ -32,7 +32,7 @@ class SelectElementTest extends DomValidationTestCase {
 				"currency" => "",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$currencyErrorArray = $errorArray["currency"];
@@ -70,7 +70,7 @@ class SelectElementTest extends DomValidationTestCase {
 				"sort" => "Random", // This <option> does not exist
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$currencyErrorArray = $errorArray["sort"];
