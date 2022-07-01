@@ -96,7 +96,7 @@ class SelectElementTest extends DomValidationTestCase {
 		}
 		catch(ValidationException $exception) {}
 
-		self::assertNull($exception);
+		self::assertSame("There is 1 invalid field", $exception->getMessage());
 	}
 
 	public function testSelectValue_invalid() {
