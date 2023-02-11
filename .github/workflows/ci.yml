@@ -46,7 +46,6 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_version: 8.1
-          php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
 
