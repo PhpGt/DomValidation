@@ -9,9 +9,9 @@
 	"type": "library",
 
 	"require": {
-		"php": ">=8.0",
+		"php": ">=8.1",
 		"phpgt/cssxpath": "1.*",
-		"phpgt/dom": "dev-master"
+		"phpgt/dom": "^4.1"
 	},
 
 	"require-dev": {

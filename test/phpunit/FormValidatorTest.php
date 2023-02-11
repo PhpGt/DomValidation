@@ -1,13 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test;
 
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class FormValidatorTest extends DomValidationTestCase {
+class FormValidatorTest extends TestCase {
 	public function testSimpleValidInput() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;

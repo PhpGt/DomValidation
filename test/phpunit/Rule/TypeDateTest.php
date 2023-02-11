@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class TypeDateTest extends DomValidationTestCase {
+class TypeDateTest extends TestCase {
 	public function testTypeDate() {
-		$form = self::getFormFromHtml(Helper::HTML_USER_PROFILE);
+		$document = new HTMLDocument(Helper::HTML_USER_PROFILE);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -18,13 +20,15 @@ class TypeDateTest extends DomValidationTestCase {
 				"dob" => "1968-11-22",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testTypeDateInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_USER_PROFILE);
+		$document = new HTMLDocument(Helper::HTML_USER_PROFILE);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -44,7 +48,8 @@ class TypeDateTest extends DomValidationTestCase {
 	}
 
 	public function testTypeMonth() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -54,13 +59,15 @@ class TypeDateTest extends DomValidationTestCase {
 				"month" => "2020-11",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testTypeMonthInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -80,7 +87,8 @@ class TypeDateTest extends DomValidationTestCase {
 	}
 
 	public function testTypeWeek() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -90,13 +98,15 @@ class TypeDateTest extends DomValidationTestCase {
 				"week" => "2021-W24",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testTypeWeekInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -116,7 +126,8 @@ class TypeDateTest extends DomValidationTestCase {
 	}
 
 	public function testTypeWeekOutOfBounds() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -136,7 +147,8 @@ class TypeDateTest extends DomValidationTestCase {
 	}
 
 	public function testTypeDatetimeLocal() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -146,13 +158,15 @@ class TypeDateTest extends DomValidationTestCase {
 				"datetime" => "2020-01-13T15:37",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testTypeDatetimeLocalInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -172,7 +186,8 @@ class TypeDateTest extends DomValidationTestCase {
 	}
 
 	public function testTypeTime() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -182,13 +197,15 @@ class TypeDateTest extends DomValidationTestCase {
 				"time" => "15:37",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testTypeTimeInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_DATE_TIME);
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {

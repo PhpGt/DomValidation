@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class TypeNumberTest extends DomValidationTestCase {
+class TypeNumberTest extends TestCase {
 	public function testNumberFieldEmpty() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -22,13 +24,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"amount" => "",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testNumberField() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -42,13 +46,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"amount" => "100",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testNumberFieldFloat() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -63,13 +69,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"amount" => "100",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testNumberFieldNotANumber() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -93,7 +101,8 @@ class TypeNumberTest extends DomValidationTestCase {
 	}
 
 	public function testStep() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -103,13 +112,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"step1" => "14",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testStepInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -129,7 +140,8 @@ class TypeNumberTest extends DomValidationTestCase {
 	}
 
 	public function testStepNegative() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -139,13 +151,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"step1" => "-21",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testStepStartingFrom2() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -155,13 +169,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"step2" => "16",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testStepStartingFrom2Invalid() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -181,7 +197,8 @@ class TypeNumberTest extends DomValidationTestCase {
 	}
 
 	public function testStepWithMinBust() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -201,7 +218,8 @@ class TypeNumberTest extends DomValidationTestCase {
 	}
 
 	public function testStepWithMax() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -211,13 +229,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"step3" => 7.2 * 3, // within range
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testStepWithMaxBust() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -237,7 +257,8 @@ class TypeNumberTest extends DomValidationTestCase {
 	}
 
 	public function testStepWithDecimalStart() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -247,13 +268,15 @@ class TypeNumberTest extends DomValidationTestCase {
 				"step4" => 3.5 + (7.2 * 2),
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testStepWithDecimalStartBust() {
-		$form = self::getFormFromHtml(Helper::HTML_STEP_NUMBERS);
+		$document = new HTMLDocument(Helper::HTML_STEP_NUMBERS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {

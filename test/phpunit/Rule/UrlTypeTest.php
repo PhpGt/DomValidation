@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class UrlTypeTest extends DomValidationTestCase {
+class UrlTypeTest extends TestCase {
 	public function testUrl() {
-		$form = self::getFormFromHtml(Helper::HTML_USER_PROFILE);
+		$document = new HTMLDocument(Helper::HTML_USER_PROFILE);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -27,7 +29,8 @@ class UrlTypeTest extends DomValidationTestCase {
 // because we can be safe in the assumption that filter_var is already
 // well tested.
 	public function testUrlInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_USER_PROFILE);
+		$document = new HTMLDocument(Helper::HTML_USER_PROFILE);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -35,7 +38,7 @@ class UrlTypeTest extends DomValidationTestCase {
 				"website" => "https:www.php.gt",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$emailErrorArray = $errorArray["website"];

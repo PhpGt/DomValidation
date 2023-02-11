@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class EmailTypeTest extends DomValidationTestCase {
+class EmailTypeTest extends TestCase {
 	public function testEmail() {
-		$form = self::getFormFromHtml(Helper::HTML_USER_PROFILE);
+		$document = new HTMLDocument(Helper::HTML_USER_PROFILE);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -18,7 +20,8 @@ class EmailTypeTest extends DomValidationTestCase {
 				"email" => "jeff@amazon.com",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
@@ -27,7 +30,8 @@ class EmailTypeTest extends DomValidationTestCase {
 // because we can be safe in the assumption that filter_var is already
 // well tested.
 	public function testEmailInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_USER_PROFILE);
+		$document = new HTMLDocument(Helper::HTML_USER_PROFILE);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -35,7 +39,7 @@ class EmailTypeTest extends DomValidationTestCase {
 				"email" => "jeff.amazon.com",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$emailErrorArray = $errorArray["email"];

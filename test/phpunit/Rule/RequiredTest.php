@@ -1,14 +1,17 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\DomValidationTestCase;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class RequiredTest extends DomValidationTestCase {
+class RequiredTest extends TestCase {
 	public function testSimpleMissingRequiredInput() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		self::expectException(ValidationException::class);
@@ -20,7 +23,8 @@ class RequiredTest extends DomValidationTestCase {
 	}
 
 	public function testSimpleMissingBothRequiredInputs() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		self::expectException(ValidationException::class);
@@ -30,7 +34,8 @@ class RequiredTest extends DomValidationTestCase {
 	}
 
 	public function testSimpleMissingRequiredInputErrorList() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -45,7 +50,8 @@ class RequiredTest extends DomValidationTestCase {
 	}
 
 	public function testSimpleEmptyRequiredInputErrorList() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -64,7 +70,8 @@ class RequiredTest extends DomValidationTestCase {
 	}
 
 	public function testNumberFieldRequiredButEmpty() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
