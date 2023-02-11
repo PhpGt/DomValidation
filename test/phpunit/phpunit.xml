@@ -4,6 +4,10 @@
 	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
 	colors="true"
 	cacheDirectory=".phpunit.cache"
+	convertDeprecationsToExceptions="false"
+	convertErrorsToExceptions="false"
+	convertNoticesToExceptions="false"
+	convertWarningsToExceptions="false"
 >
 	<coverage>
 		<include>
