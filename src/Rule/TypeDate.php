@@ -20,7 +20,7 @@ class TypeDate extends Rule {
 		"type=time",
 	];
 
-	public function isValid(Element $element, string $value):bool {
+	public function isValid(Element $element, string $value, array $inputKvp):bool {
 		if($value === "") {
 			return true;
 		}

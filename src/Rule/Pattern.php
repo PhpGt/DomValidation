@@ -8,7 +8,7 @@ class Pattern extends Rule {
 		"pattern",
 	];
 
-	public function isValid(Element $element, string $value):bool {
+	public function isValid(Element $element, string $value, array $inputKvp):bool {
 		$pattern = "/" . $element->getAttribute("pattern") . "/";
 		return (bool)preg_match($pattern, $value);
 	}
