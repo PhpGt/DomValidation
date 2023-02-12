@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class SelectElementTest extends DomValidationTestCase {
+class SelectElementTest extends TestCase {
 	public function testSelect() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -18,13 +20,15 @@ class SelectElementTest extends DomValidationTestCase {
 				"currency" => "GBP",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testSelectMissingRequired() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -44,7 +48,8 @@ class SelectElementTest extends DomValidationTestCase {
 	}
 
 	public function testSelectTextContent() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -55,13 +60,15 @@ class SelectElementTest extends DomValidationTestCase {
 				"sort" => "Descending",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testSelectTextContentInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -82,7 +89,8 @@ class SelectElementTest extends DomValidationTestCase {
 	}
 
 	public function testSelectValue_textContent() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -94,13 +102,15 @@ class SelectElementTest extends DomValidationTestCase {
 // There is an <option> with "All" as its text content, but not with this value.
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertSame("There is 1 invalid field", $exception->getMessage());
 	}
 
 	public function testSelectValue_invalid() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -121,7 +131,8 @@ class SelectElementTest extends DomValidationTestCase {
 	}
 
 	public function testSelectTwoInvalidOptionsAndOneMissing() {
-		$form = self::getFormFromHtml(Helper::HTML_SELECT);
+		$document = new HTMLDocument(Helper::HTML_SELECT);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {

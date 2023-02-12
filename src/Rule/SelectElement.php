@@ -2,17 +2,15 @@
 namespace Gt\DomValidation\Rule;
 
 use Gt\Dom\Element;
-use Gt\Dom\HTMLElement\HTMLOptionElement;
-use Gt\Dom\HTMLElement\HTMLSelectElement;
+use Gt\Dom\ElementType;
 
 class SelectElement extends Rule {
 	public function isValid(Element $element, string $value):bool {
 		$availableValues = [];
 
-		if(!$element instanceof HTMLSelectElement) {
+		if($element->elementType !== ElementType::HTMLSelectElement) {
 			return true;
 		}
-		/** @var HTMLSelectElement $element */
 
 		if($value === "") {
 			return true;

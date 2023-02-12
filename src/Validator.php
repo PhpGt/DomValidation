@@ -20,7 +20,8 @@ class Validator {
 	public function validate(Element $form, array $input):void {
 		$this->errorList = new ErrorList();
 
-		foreach($this->rules->getAttributeRuleList() as $attrString => $ruleArray) {
+		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
+			/** @var Element $element */
 			foreach($form->querySelectorAll("[$attrString]") as $element) {
 				$name = $element->getAttribute("name");
 

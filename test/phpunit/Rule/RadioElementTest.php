@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class RadioElementTest extends DomValidationTestCase {
+class RadioElementTest extends TestCase {
 	public function testRadio() {
-		$form = self::getFormFromHtml(Helper::HTML_RADIO);
+		$document = new HTMLDocument(Helper::HTML_RADIO);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -18,13 +20,15 @@ class RadioElementTest extends DomValidationTestCase {
 				"currency" => "GBP",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testRadioMissingRequired() {
-		$form = self::getFormFromHtml(Helper::HTML_RADIO);
+		$document = new HTMLDocument(Helper::HTML_RADIO);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -44,7 +48,8 @@ class RadioElementTest extends DomValidationTestCase {
 	}
 
 	public function testRadioTextContent() {
-		$form = self::getFormFromHtml(Helper::HTML_RADIO);
+		$document = new HTMLDocument(Helper::HTML_RADIO);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -55,13 +60,15 @@ class RadioElementTest extends DomValidationTestCase {
 				"sort" => "desc",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testRadioTextContentInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_RADIO);
+		$document = new HTMLDocument(Helper::HTML_RADIO);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {

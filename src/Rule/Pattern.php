@@ -10,7 +10,7 @@ class Pattern extends Rule {
 
 	public function isValid(Element $element, string $value):bool {
 		$pattern = "/" . $element->getAttribute("pattern") . "/";
-		return preg_match($pattern, $value);
+		return (bool)preg_match($pattern, $value);
 	}
 
 	public function getHint(Element $element, string $value):string {
