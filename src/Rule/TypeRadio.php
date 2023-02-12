@@ -23,6 +23,8 @@ class TypeRadio extends Rule {
 
 		$availableValues = [];
 		$name = $element->name;
+
+		/** @var Element $siblingInput */
 		foreach($element->form->querySelectorAll("[name='$name']") as $siblingInput) {
 			if($radioValue = $siblingInput->value) {
 				array_push($availableValues, $radioValue);
