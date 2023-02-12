@@ -10,7 +10,7 @@ class TypeNumber extends Rule {
 		"type=range",
 	];
 
-	public function isValid(Element $element, string $value):bool {
+	public function isValid(Element $element, string $value, array $inputKvp):bool {
 		if($min = $element->getAttribute("min") ?: null) {
 			$min = (float)$min;
 		}

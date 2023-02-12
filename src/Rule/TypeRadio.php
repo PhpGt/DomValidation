@@ -5,7 +5,7 @@ use Gt\Dom\Element;
 use Gt\Dom\ElementType;
 
 class TypeRadio extends Rule {
-	public function isValid(Element $element, string $value):bool {
+	public function isValid(Element $element, string $value, array $inputKvp):bool {
 		if($element->elementType !== ElementType::HTMLInputElement) {
 			return true;
 		}
