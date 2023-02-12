@@ -57,7 +57,7 @@ class TypeDate extends Rule {
 			}
 
 			$dateTime = new DateTime();
-			$dateTime->setISODate($matches["year"], $matches["week"]);
+			$dateTime->setISODate((int)$matches["year"], (int)$matches["week"]);
 
 			break;
 

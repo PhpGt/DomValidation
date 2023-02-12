@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class MaxLengthTest extends DomValidationTestCase {
+class MaxLengthTest extends TestCase {
 	public function testMaxLengthOK() {
-		$form = self::getFormFromHtml(Helper::HTML_TWITTER);
+		$document = new HTMLDocument(Helper::HTML_TWITTER);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -17,13 +19,15 @@ class MaxLengthTest extends DomValidationTestCase {
 				"tweet" => "A Tweet is is a short, unintelligent and meaningless string of characters thrown into an echo chamber somewhere online."
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testMaxLength() {
-		$form = self::getFormFromHtml(Helper::HTML_TWITTER);
+		$document = new HTMLDocument(Helper::HTML_TWITTER);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;

@@ -11,9 +11,15 @@ class TypeNumber extends Rule {
 	];
 
 	public function isValid(Element $element, string $value):bool {
-		$min = $element->getAttribute("min") ?: null;
-		$max = $element->getAttribute("max") ?: null;
-		$step = $element->getAttribute("step") ?: null;
+		if($min = $element->getAttribute("min") ?: null) {
+			$min = (float)$min;
+		}
+		if($max = $element->getAttribute("max") ?: null) {
+			$max = (float)$max;
+		}
+		if($step = $element->getAttribute("step") ?: null) {
+			$step = (float)$step;
+		}
 
 		if($value === "") {
 			$validity = true;
@@ -50,9 +56,15 @@ class TypeNumber extends Rule {
 	}
 
 	public function getHint(Element $element, string $value):string {
-		$min = $element->getAttribute("min") ?: null;
-		$max = $element->getAttribute("max") ?: null;
-		$step = $element->getAttribute("step") ?: null;
+		if($min = $element->getAttribute("min") ?: null) {
+			$min = (float)$min;
+		}
+		if($max = $element->getAttribute("max") ?: null) {
+			$max = (float)$max;
+		}
+		if($step = $element->getAttribute("step") ?: null) {
+			$step = (float)$step;
+		}
 		$hint = "";
 
 		if(is_numeric($value)) {
