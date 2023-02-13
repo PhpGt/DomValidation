@@ -53,14 +53,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: /tmp/github-actions
-
-      - name: Extract build archive
-        run: tar -xvf /tmp/github-actions/build.tar ./
-
       - name: PHP Static Analysis
         uses: php-actions/phpstan@v3
         with:
