@@ -79,5 +79,5 @@ jobs:
           while read id
           do
             echo -n "Deleting artifact ID $id ... "
-            gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/ARTIFACT_ID && echo "... Done"
+            gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/$id && echo "... Done"
           done <artifact-id-list.txt
