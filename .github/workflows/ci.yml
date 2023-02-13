@@ -69,7 +69,7 @@ jobs:
     steps:
       - run: |
           echo "Here's the coverage from the other job:"
-          echo ${{ steps.phpunit.outputs.coverage_text }}          
+          echo ${{ steps.phpunit.outputs.coverage }}          
 
   phpstan:
     runs-on: ubuntu-latest
