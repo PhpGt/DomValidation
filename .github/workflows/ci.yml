@@ -33,6 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [composer]
 
+    outputs:
+      coverage: ${{ steps.coverage.outputs.coverage_text }}
+
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -54,8 +57,11 @@ jobs:
           args: --coverage-text=test/phpunit/_coverage.txt
 
       - name: Code coverage
+        id: coverage
         run: |
-          cat test/phpunit/_coverage.txt
+          coverage_text=$(cat test/phpunit/_coverage.txt)
+          echo $coverage_text
+          echo "// TODO: output the above coverage text to GITHUB_OUTPUT"
 
   phpstan:
     runs-on: ubuntu-latest
