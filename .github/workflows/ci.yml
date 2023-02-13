@@ -59,7 +59,7 @@ jobs:
       - name: Store coverage data
         id: coverage
         run: |
-          echo 'coverage<<EOF'  >> $GITHUB_OUTPUT
+          echo 'coverage=<<EOF'  >> $GITHUB_OUTPUT
           cat test/phpunit/_coverage.txt >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
