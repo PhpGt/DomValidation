@@ -51,13 +51,11 @@ jobs:
           php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
-          args: --coverage-text --coverage-html=test/phpunit/_coverage
+          args: --coverage-text=test/phpunit/_coverage.txt
 
-      - name: Upload coverage HTML
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: test/phpunit/_coverage
+      - name: Code coverage
+        run: |
+          cat test/phpunit/_coverage.txt
 
   phpstan:
     runs-on: ubuntu-latest
