@@ -51,7 +51,7 @@ jobs:
           php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
-          args: --coverage-text
+          args: --coverage-text --coverage-html=test/phpunit/_coverage
 
   phpstan:
     runs-on: ubuntu-latest
