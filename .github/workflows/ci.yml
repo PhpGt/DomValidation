@@ -74,5 +74,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          artifact_id=$(gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.workflow_run.id == ${{ github.run.id }}) | .id")
+          artifact_id=$(gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.workflow_run.id == ${{ github.run_id }}) | .id")
           echo "Removing artifact ID: $artifact_id"
