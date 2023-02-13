@@ -59,8 +59,9 @@ jobs:
       - name: Store coverage data
         id: coverage
         run: |
-          coverage_text=$(cat test/phpunit/_coverage.txt)
-          echo coverage_text="$coverage_text" >> $GITHUB_OUTPUT
+          echo "coverage_text<<EOF" >> $GITHUB_OUTPUT
+          cat test/phpunit/_coverage.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
   coverage:
     runs-on: ubuntu-latest
