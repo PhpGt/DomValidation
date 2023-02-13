@@ -60,7 +60,7 @@ jobs:
         id: coverage
         run: |
           coverage_text=$(cat test/phpunit/_coverage.txt)
-          echo $coverage_text
+          echo "$coverage_text"
           echo "// TODO: output the above coverage text to GITHUB_OUTPUT"
 
   phpstan:
