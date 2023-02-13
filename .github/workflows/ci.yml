@@ -59,7 +59,9 @@ jobs:
       - name: Store coverage data
         id: store-coverage
         run: |
-          echo "coverage_text=test-message-here" >> $GITHUB_OUTPUT
+          echo "coverage_text<<EOL" >> $GITHUB_OUTPUT
+          cat test/phpunit/_coverage.txt >> $GITHUB_OUTPUT
+          echo "EOL" >> $GITHUB_OUTPUT
 
   coverage:
     runs-on: ubuntu-latest
