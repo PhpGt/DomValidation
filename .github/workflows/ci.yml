@@ -67,13 +67,10 @@ jobs:
         with:
           path: src/
 
-  logLatestRelease:
+  remove_artifact:
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-          route: GET /repos/${{ github.repository }}/releases/latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+      - name: Remove artifact for this workflow run
+        run: |
+          artifact_id=$(gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.workflow_run.id == ${{ github.run.id }}) | .id")
+          echo "Removing artifact ID: $artifact_id"
