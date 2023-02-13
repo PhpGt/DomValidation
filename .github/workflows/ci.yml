@@ -56,12 +56,11 @@ jobs:
           bootstrap: vendor/autoload.php
           args: --coverage-text=test/phpunit/_coverage.txt
 
-      - name: Code coverage
+      - name: Store coverage data
         id: coverage
         run: |
           coverage_text=$(cat test/phpunit/_coverage.txt)
-          echo "$coverage_text"
-          echo "// TODO: output the above coverage text to GITHUB_OUTPUT"
+          echo coverage_text="$coverage_text" >> $GITHUB_OUTPUT
 
   phpstan:
     runs-on: ubuntu-latest
