@@ -68,8 +68,10 @@ jobs:
     needs: [phpunit]
     steps:
       - run: |
-          echo "Here's the coverage from the other job:"
           echo "${{ needs.phpunit.outputs.coverage }}"
+          percentage=$(echo "${{ needs.phpunit.outputs.coverage }}" | grep -oP "\s+Lines:\s*\K([\d\.]+)")
+          percentage_rounded=$(php -r "echo floor($percentage);")
+          echo "Detected percentage $percentage, rounded to $percentage_rounded"
 
   phpstan:
     runs-on: ubuntu-latest
