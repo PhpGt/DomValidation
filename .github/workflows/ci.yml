@@ -44,10 +44,14 @@ jobs:
 
       - name: PHP Unit tests
         uses: php-actions/phpunit@v3
+        env:
+          XDEBUG_MODE: cover
         with:
           php_version: 8.1
+          php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
+          args: --coverage-text
 
   phpstan:
     runs-on: ubuntu-latest
