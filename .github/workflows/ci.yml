@@ -51,7 +51,6 @@ jobs:
 
   phpstan:
     runs-on: ubuntu-latest
-    needs: [composer]
 
     steps:
       - uses: actions/download-artifact@v3
@@ -69,6 +68,8 @@ jobs:
 
   remove_artifact:
     runs-on: ubuntu-latest
+    needs: [composer]
+
     steps:
       - name: Remove artifact for this workflow run
         env:
