@@ -77,3 +77,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.workflow_run.id == ${{ github.run_id }}) | .id"
+          # this comment is added to trigger another workflow run
