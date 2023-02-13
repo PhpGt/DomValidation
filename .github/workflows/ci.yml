@@ -67,14 +67,17 @@ jobs:
         with:
           path: src/
 
-  remove_artifact:
+  remove_old_artifacts:
     runs-on: ubuntu-latest
-    needs: [composer,phpunit,phpstan]
 
     steps:
-      - name: Remove artifact for this workflow run
+      - name: Remove old artifacts for prior workflow runs on this repository
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.workflow_run.id == ${{ github.run_id }}) | .id"
-          # this comment is added to trigger another workflow run
+          gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.name == \"build-artifact\") | .id" > artifact-id-list.txt
+          while read id
+          do
+            echo "Deleting artifact ID $id..."
+            #	gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/ARTIFACT_ID
+          done <artifact-id-list.txt
