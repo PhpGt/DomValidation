@@ -90,7 +90,7 @@ jobs:
         run: |
           ls -la
           curl -L https://www.getrelease.download/php-coveralls/php-coveralls/2.*/phar > coveralls.phar
-          php ./coveralls.phar --coverage_clover=_coverage/clover.xml -v --json_path /tmp/coveralls.json
+          php ./coveralls.phar --verbose --coverage_clover=_coverage/clover.xml --json_path /tmp/coveralls.json --root_dir ./
 
   phpstan:
     runs-on: ubuntu-latest
