@@ -54,24 +54,35 @@ jobs:
           php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
-          args: --coverage-text=test/phpunit/_coverage.txt
+          coverage-text: _coverage/coverage.txt
+          coverage-clover: _coverage/clover.xml
 
       - name: Store coverage data
         id: store-coverage
-        run: |
-          echo "coverage_text<<EOL" >> $GITHUB_OUTPUT
-          cat test/phpunit/_coverage.txt >> $GITHUB_OUTPUT
-          echo "EOL" >> $GITHUB_OUTPUT
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: _coverage
 
   coverage:
     runs-on: ubuntu-latest
-    needs: [phpunit]
+    needs: [ phpunit ]
+
     steps:
-      - run: |
-          echo "${{ needs.phpunit.outputs.coverage }}"
-          percentage=$(echo "${{ needs.phpunit.outputs.coverage }}" | grep -oP "\s+Lines:\s*\K([\d\.]+)")
-          percentage_rounded=$(php -r "echo floor($percentage);")
-          echo "Detected percentage $percentage, rounded to $percentage_rounded"
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: /tmp/github-actions
+
+      - name: Output coverage
+        run: cat "_coverage/coverage.txt"
+
+      - name: Upload to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_API }}
+        run: |
+          curl -L https://www.getrelease.download/php-coveralls/php-coveralls/2.*/phar > coveralls.phar
+          php ./coveralls.phar --coverage_clover=_coverage/clover.xml -v
 
   phpstan:
     runs-on: ubuntu-latest
