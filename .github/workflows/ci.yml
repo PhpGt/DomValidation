@@ -84,7 +84,7 @@ jobs:
         run: |
           ls -la
           curl -L https://www.getrelease.download/php-coveralls/php-coveralls/2.*/phar > coveralls.phar
-          php ./coveralls.phar --verbose --coverage_clover=clover.xml --json_path /tmp/coveralls.json --root_dir $GITHUB_WORKSPACE
+          php ./coveralls.phar --verbose --coverage_clover=clover.xml --json_path coveralls.json --root_dir $GITHUB_WORKSPACE
 
   phpstan:
     runs-on: ubuntu-latest
