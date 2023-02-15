@@ -82,7 +82,6 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_API }}
         run: |
-          ls -la
           curl --location --silent https://www.getrelease.download/php-coveralls/php-coveralls/2.*/phar > coveralls.phar
           sed -i 's|name="/app/|name="./|' _coverage/clover.xml
           php ./coveralls.phar --verbose --coverage_clover=_coverage/clover.xml --json_path coveralls.json --root_dir $GITHUB_WORKSPACE
