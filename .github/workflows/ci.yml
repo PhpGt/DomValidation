@@ -33,6 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [composer]
 
+    outputs:
+      coverage: ${{ steps.store-coverage.outputs.coverage_text }}
+
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -43,11 +46,40 @@ jobs:
         run: tar -xvf /tmp/github-actions/build.tar ./
 
       - name: PHP Unit tests
-        uses: php-actions/phpunit@v3
+        uses: php-actions/phpunit@coverage
+        env:
+          XDEBUG_MODE: cover
         with:
           php_version: 8.1
+          php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
+          coverage_text: _coverage/coverage.txt
+          coverage_clover: _coverage/clover.xml
+
+      - name: Store coverage data
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: _coverage
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: [ phpunit ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: code-coverage
+          path: _coverage
+
+      - name: Output coverage
+        run: cat "_coverage/coverage.txt"
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v3
 
   phpstan:
     runs-on: ubuntu-latest
@@ -66,3 +98,18 @@ jobs:
         uses: php-actions/phpstan@v3
         with:
           path: src/
+
+  remove_old_artifacts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Remove old artifacts for prior workflow runs on this repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "/repos/${{ github.repository }}/actions/artifacts?name=build-artifact" | jq ".artifacts[] | select(.name == \"build-artifact\") | .id" > artifact-id-list.txt
+          while read id
+          do
+            echo -n "Deleting artifact ID $id ... "
+            gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/$id && echo "Done"
+          done <artifact-id-list.txt
