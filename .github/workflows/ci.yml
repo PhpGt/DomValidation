@@ -81,7 +81,7 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_API }}
         run: |
           curl -L https://www.getrelease.download/php-coveralls/php-coveralls/2.*/phar > coveralls.phar
-          php ./coveralls.phar --coverage_clover=_coverage/clover.xml -v
+          php ./coveralls.phar --coverage_clover=_coverage/clover.xml -v --json_path /tmp/coveralls.json
 
   phpstan:
     runs-on: ubuntu-latest
