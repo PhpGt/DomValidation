@@ -70,6 +70,14 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
+          name: build-artifact
+          path: /tmp/github-actions
+
+      - name: Extract build archive
+        run: tar -xvf /tmp/github-actions/build.tar ./
+
+      - uses: actions/download-artifact@v3
+        with:
           name: code-coverage
           path: _coverage
 
