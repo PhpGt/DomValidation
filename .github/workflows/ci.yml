@@ -68,13 +68,7 @@ jobs:
     needs: [ phpunit ]
 
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: /tmp/github-actions
-
-      - name: Extract build archive
-        run: tar -xvf /tmp/github-actions/build.tar ./
+      - uses: actions/checkout@v3
 
       - uses: actions/download-artifact@v3
         with:
@@ -90,7 +84,7 @@ jobs:
         run: |
           ls -la
           curl -L https://www.getrelease.download/php-coveralls/php-coveralls/2.*/phar > coveralls.phar
-          php ./coveralls.phar --verbose --coverage_clover=clover.xml --json_path /tmp/coveralls.json --root_dir ./
+          php ./coveralls.phar --verbose --coverage_clover=clover.xml --json_path /tmp/coveralls.json --root_dir $GITHUB_WORKSPACE
 
   phpstan:
     runs-on: ubuntu-latest
