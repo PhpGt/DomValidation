@@ -54,11 +54,10 @@ jobs:
           php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
-          coverage-text: _coverage/coverage.txt
-          coverage-clover: _coverage/clover.xml
+          coverage_text: _coverage/coverage.txt
+          coverage_clover: _coverage/clover.xml
 
       - name: Store coverage data
-        id: store-coverage
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage
