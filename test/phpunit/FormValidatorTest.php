@@ -1,14 +1,17 @@
 <?php
 namespace Gt\DomValidation\Test;
 
+use ArrayIterator;
 use Gt\Dom\Element;
 use Gt\Dom\HTMLDocument;
+use Gt\Dom\HTMLElement;
 use Gt\DomValidation\DefaultValidationRules;
 use Gt\DomValidation\Rule\Rule;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class FormValidatorTest extends TestCase {
 	public function testSimpleValidInput() {
@@ -74,5 +77,25 @@ class FormValidatorTest extends TestCase {
 		}
 
 		self::assertNotNull($exception);
+	}
+
+	public function testValidate_objectAsArray():void {
+		$kvpInput = [
+			"name" => "Andrew Chi-Chih Yao",
+			"dob" => "1946-12-24",
+		];
+
+		/** @var ArrayIterator $inputObject */
+		$inputObject = self::getMockBuilder(ArrayIterator::class)
+			->addMethods(["asArray"])
+			->getMock();
+		$inputObject->expects(self::once())
+			->method("asArray")
+			->willReturn($kvpInput);
+
+		$form = self::createMock(Element::class);
+
+		$sut = new Validator();
+		$sut->validate($form, $inputObject);
 	}
 }

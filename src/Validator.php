@@ -16,9 +16,14 @@ class Validator {
 		$this->rules = $rules;
 	}
 
-	/** @param array<string, string> $inputKvp Associative array of user input */
-	public function validate(Element $form, array $inputKvp):void {
+	/** @param iterable<string, string> $inputKvp Associative array of user input */
+	public function validate(Element $form, iterable $inputKvp):void {
 		$this->errorList = new ErrorList();
+
+		if(is_object($inputKvp) && method_exists($inputKvp, "asArray")) {
+			/** @var array<string, string> $inputKvp */
+			$inputKvp = $inputKvp->asArray();
+		}
 
 		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
 			/** @var Element $element */
