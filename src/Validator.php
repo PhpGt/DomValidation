@@ -26,30 +26,45 @@ class Validator {
 		}
 
 		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
-			/** @var Element $element */
-			foreach($form->querySelectorAll("[$attrString]") as $element) {
-				$name = $element->getAttribute("name");
-
-				foreach($ruleArray as $rule) {
-					if(!$rule->isValid($element, $inputKvp[$name] ?? "", $inputKvp)) {
-						$this->errorList->add(
-							$element,
-							$rule->getHint($element, $inputKvp[$name] ?? "")
-						);
-					}
-				}
-			}
+			$this->buildErrorList(
+				$form,
+				$attrString,
+				$ruleArray,
+				$inputKvp
+			);
 		}
 
 		$errorCount = count($this->errorList);
 		if($errorCount > 0) {
 			$collectiveNoun = $errorCount === 1 ? "is" : "are";
 			$fieldWord = $errorCount === 1 ? "field" : "fields";
-			throw new ValidationException("There $collectiveNoun $errorCount invalid $fieldWord");
+			throw new ValidationException(
+				"There $collectiveNoun $errorCount invalid $fieldWord"
+			);
 		}
 	}
 
 	public function getLastErrorList():ErrorList {
 		return $this->errorList;
+	}
+
+	protected function buildErrorList(
+		Element $form,
+		int|string $attrString,
+		mixed $ruleArray,
+		iterable|object $inputKvp,
+	): void {
+		foreach ($form->querySelectorAll("[$attrString]") as $element) {
+			$name = $element->getAttribute("name");
+
+			foreach ($ruleArray as $rule) {
+				if (!$rule->isValid($element, $inputKvp[$name] ?? "", $inputKvp)) {
+					$this->errorList->add(
+					$element,
+					$rule->getHint($element, $inputKvp[$name] ?? "")
+					);
+				}
+			}
+		}
 	}
 }

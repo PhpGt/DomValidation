@@ -10,16 +10,12 @@ class TypeNumber extends Rule {
 		"type=range",
 	];
 
-	public function isValid(Element $element, string $value, array $inputKvp):bool {
-		if($min = $element->getAttribute("min") ?: null) {
-			$min = (float)$min;
-		}
-		if($max = $element->getAttribute("max") ?: null) {
-			$max = (float)$max;
-		}
-		if($step = $element->getAttribute("step") ?: null) {
-			$step = (float)$step;
-		}
+	public function isValid(
+		Element $element,
+		string $value,
+		array $inputKvp,
+	):bool {
+		list($min, $max, $step) = $this->extractMinMaxStep($element);
 
 		if($value === "") {
 			$validity = true;
@@ -56,15 +52,7 @@ class TypeNumber extends Rule {
 	}
 
 	public function getHint(Element $element, string $value):string {
-		if($min = $element->getAttribute("min") ?: null) {
-			$min = (float)$min;
-		}
-		if($max = $element->getAttribute("max") ?: null) {
-			$max = (float)$max;
-		}
-		if($step = $element->getAttribute("step") ?: null) {
-			$step = (float)$step;
-		}
+		list($min, $max, $step) = $this->extractMinMaxStep($element);
 		$hint = "";
 
 		if(is_numeric($value)) {
@@ -93,5 +81,22 @@ class TypeNumber extends Rule {
 		}
 
 		return $hint;
+	}
+
+	/**
+	 * @param Element $element
+	 * @return array
+	 */
+	protected function extractMinMaxStep(Element $element): array {
+		if ($min = $element->getAttribute("min") ?: null) {
+			$min = (float)$min;
+		}
+		if ($max = $element->getAttribute("max") ?: null) {
+			$max = (float)$max;
+		}
+		if ($step = $element->getAttribute("step") ?: null) {
+			$step = (float)$step;
+		}
+		return array($min, $max, $step);
 	}
 }

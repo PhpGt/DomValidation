@@ -8,13 +8,17 @@ class Pattern extends Rule {
 		"pattern",
 	];
 
-	public function isValid(Element $element, string $value, array $inputKvp):bool {
-		$pattern = "/" . $element->getAttribute("pattern") . "/";
+	public function isValid(
+		Element $element,
+		string $value,
+		array $inputKvp,
+	):bool {
+		$pattern = "/" . $element->getAttribute("pattern") . "/u";
 		return (bool)preg_match($pattern, $value);
 	}
 
 	public function getHint(Element $element, string $value):string {
-		$hint = "This field does not match the required pattern";
+		$hint = "This field's value ($value) does not match the required pattern";
 
 		if($title = $element->getAttribute("title")) {
 			$hint .= ": $title";
