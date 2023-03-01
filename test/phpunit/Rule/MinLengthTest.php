@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class MinLengthTest extends DomValidationTestCase {
+class MinLengthTest extends TestCase {
 	public function testMinLengthOK() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -18,13 +20,15 @@ class MinLengthTest extends DomValidationTestCase {
 				"password" => "holdoutyerhand1964",
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testMinLength() {
-		$form = self::getFormFromHtml(Helper::HTML_USERNAME_PASSWORD);
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;

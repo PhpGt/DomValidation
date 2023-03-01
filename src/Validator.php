@@ -16,19 +16,20 @@ class Validator {
 		$this->rules = $rules;
 	}
 
-	/** @param array<string, string> $input Associative array of user input */
-	public function validate(Element $form, array $input):void {
+	/** @param array<string, string> $inputKvp Associative array of user input */
+	public function validate(Element $form, array $inputKvp):void {
 		$this->errorList = new ErrorList();
 
-		foreach($this->rules->getAttributeRuleList() as $attrString => $ruleArray) {
+		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
+			/** @var Element $element */
 			foreach($form->querySelectorAll("[$attrString]") as $element) {
 				$name = $element->getAttribute("name");
 
 				foreach($ruleArray as $rule) {
-					if(!$rule->isValid($element, $input[$name] ?? "")) {
+					if(!$rule->isValid($element, $inputKvp[$name] ?? "", $inputKvp)) {
 						$this->errorList->add(
 							$element,
-							$rule->getHint($element, $input[$name] ?? "")
+							$rule->getHint($element, $inputKvp[$name] ?? "")
 						);
 					}
 				}

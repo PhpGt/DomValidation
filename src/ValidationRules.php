@@ -14,6 +14,10 @@ abstract class ValidationRules {
 	/** Must instantiate $this->ruleList as an array of Rule objects */
 	abstract protected function setRuleList():void;
 
+	public function addRule(Rule $rule):void {
+		array_push($this->ruleList, $rule);
+	}
+
 	/**
 	 * Returns an associative array of rules affected by each attribute.
 	 * The key of the array is the DOMElement attribute name that affects

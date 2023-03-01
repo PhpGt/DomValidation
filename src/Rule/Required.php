@@ -8,7 +8,7 @@ class Required extends Rule {
 		"required",
 	];
 
-	public function isValid(Element $element, string $value):bool {
+	public function isValid(Element $element, string $value, array $inputKvp):bool {
 		return !empty($value);
 	}
 

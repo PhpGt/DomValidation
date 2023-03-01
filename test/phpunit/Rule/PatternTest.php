@@ -1,14 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
-use Gt\DomValidation\Test\DomValidationTestCase;
+use Gt\Dom\HTMLDocument;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\TestCase;
 
-class PatternTest extends DomValidationTestCase {
+class PatternTest extends TestCase {
 	public function testPattern() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -21,13 +23,15 @@ class PatternTest extends DomValidationTestCase {
 				"expiry-month" => 12,
 			]);
 		}
-		catch(ValidationException $exception) {}
+		catch(ValidationException $exception) {
+		}
 
 		self::assertNull($exception);
 	}
 
 	public function testPatternInvalid() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		$exception = null;
@@ -51,7 +55,8 @@ class PatternTest extends DomValidationTestCase {
 	}
 
 	public function testPatternWithMissingRequiredFields() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {
@@ -76,7 +81,8 @@ class PatternTest extends DomValidationTestCase {
 	}
 
 	public function testPatternTitleShown() {
-		$form = self::getFormFromHtml(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$document = new HTMLDocument(Helper::HTML_PATTERN_CREDIT_CARD_ALL_REQUIRED_FIELDS);
+		$form = $document->forms[0];
 		$validator = new Validator();
 
 		try {

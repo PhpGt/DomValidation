@@ -2,11 +2,11 @@
 namespace Gt\DomValidation\Rule;
 
 use Gt\Dom\Element;
-use Gt\Dom\HTMLElement\HTMLInputElement;
+use Gt\Dom\ElementType;
 
 class TypeRadio extends Rule {
-	public function isValid(Element $element, string $value):bool {
-		if(!$element instanceof HTMLInputElement) {
+	public function isValid(Element $element, string $value, array $inputKvp):bool {
+		if($element->elementType !== ElementType::HTMLInputElement) {
 			return true;
 		}
 		if($element->type !== "radio") {
@@ -23,9 +23,9 @@ class TypeRadio extends Rule {
 
 		$availableValues = [];
 		$name = $element->name;
-		foreach($element->form->querySelectorAll("[name='$name']") as $siblingInput) {
-			/** @var HTMLInputElement $siblingInput */
 
+		/** @var Element $siblingInput */
+		foreach($element->form->querySelectorAll("[name='$name']") as $siblingInput) {
 			if($radioValue = $siblingInput->value) {
 				array_push($availableValues, $radioValue);
 			}
