@@ -19,7 +19,12 @@ abstract class Rule {
 		return $this->attributes;
 	}
 
-	abstract public function isValid(Element $element, string $value, array $inputKvp):bool;
+	/** @param array<string, string> $inputKvp */
+	abstract public function isValid(
+		Element $element,
+		string $value,
+		array $inputKvp,
+	):bool;
 
 	abstract public function getHint(Element $element, string $value):string;
 }

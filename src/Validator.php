@@ -17,7 +17,7 @@ class Validator {
 	}
 
 	/** @param iterable<string, string> $inputKvp Associative array of user input */
-	public function validate(Element $form, iterable $inputKvp):void {
+	public function validate(Element $form, iterable|object $inputKvp):void {
 		$this->errorList = new ErrorList();
 
 		if(is_object($inputKvp) && method_exists($inputKvp, "asArray")) {
