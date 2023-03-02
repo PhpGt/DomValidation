@@ -79,8 +79,8 @@ class Validator {
 
 	/** @return array<string, string> */
 	private function convertObjectToKvp(object $obj):array {
-		if(method_exists($obj, "toArray")) {
-			return $obj->toArray();
+		if(method_exists($obj, "asArray")) {
+			return $obj->asArray();
 		}
 
 		if($obj instanceof Traversable) {

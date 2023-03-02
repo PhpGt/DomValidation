@@ -103,6 +103,7 @@ class TypeDate extends Rule {
 			if(!$format) {
 				return null;
 			}
+
 			return DateTime::createFromFormat($format, $value) ?: null;
 		}
 	}

@@ -10,6 +10,7 @@ use Gt\DomValidation\Rule\Rule;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -85,7 +86,7 @@ class FormValidatorTest extends TestCase {
 			"dob" => "1946-12-24",
 		];
 
-		/** @var ArrayIterator $inputObject */
+		/** @var ArrayIterator<string, string>|MockObject $inputObject */
 		$inputObject = self::getMockBuilder(ArrayIterator::class)
 			->addMethods(["asArray"])
 			->getMock();
