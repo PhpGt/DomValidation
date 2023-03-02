@@ -39,10 +39,9 @@ class SelectElementTest extends TestCase {
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["currency"];
-			self::assertContains(
+			self::assertSame(
 				"This field is required",
-				$currencyErrorArray
+				$errorArray["currency"]
 			);
 		}
 	}
@@ -80,10 +79,9 @@ class SelectElementTest extends TestCase {
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["sort"];
-			self::assertContains(
+			self::assertSame(
 				"This field's value must match one of the available options",
-				$currencyErrorArray
+				$errorArray["sort"]
 			);
 		}
 	}
@@ -122,10 +120,9 @@ class SelectElementTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["connections"];
-			self::assertContains(
+			self::assertSame(
 				"This field's value must match one of the available options",
-				$currencyErrorArray
+				$errorArray["connections"]
 			);
 		}
 	}
@@ -144,20 +141,17 @@ class SelectElementTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(3, $errorArray);
-			$currencyErrorArray = $errorArray["currency"];
-			$sortErrorArray = $errorArray["sort"];
-			$connectionsErrorArray = $errorArray["connections"];
-			self::assertContains(
+			self::assertSame(
 				"This field is required",
-				$currencyErrorArray
+				$errorArray["currency"]
 			);
-			self::assertContains(
+			self::assertSame(
 				"This field's value must match one of the available options",
-				$sortErrorArray
+				$errorArray["sort"]
 			);
-			self::assertContains(
+			self::assertSame(
 				"This field's value must match one of the available options",
-				$connectionsErrorArray
+				$errorArray["connections"]
 			);
 		}
 	}

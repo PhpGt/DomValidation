@@ -62,4 +62,9 @@
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent" />
 	<rule ref="Generic.WhiteSpace.IncrementDecrementSpacing" />
 	<rule ref="Generic.WhiteSpace.LanguageConstructSpacing" />
+
+	<!-- We allow empty catch statements -->
+	<rule ref="Generic.CodeAnalysis.EmptyStatement.DetectedCATCH">
+		<severity>0</severity>
+	</rule>
 </ruleset>

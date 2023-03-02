@@ -42,10 +42,10 @@ class EmailTypeTest extends TestCase {
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$emailErrorArray = $errorArray["email"];
-			self::assertContains(
+			$emailError = $errorArray["email"];
+			self::assertSame(
 				"Field must be an email address",
-				$emailErrorArray
+				$emailError
 			);
 		}
 	}

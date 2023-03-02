@@ -38,11 +38,9 @@ class RadioElementTest extends TestCase {
 		}
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
-			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["currency"];
-			self::assertContains(
+			self::assertSame(
 				"This field is required",
-				$currencyErrorArray
+				$errorArray["currency"],
 			);
 		}
 	}
@@ -80,10 +78,9 @@ class RadioElementTest extends TestCase {
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["sort"];
-			self::assertContains(
+			self::assertSame(
 				"This field's value must match one of the available options",
-				$currencyErrorArray
+				$errorArray["sort"]
 			);
 		}
 	}

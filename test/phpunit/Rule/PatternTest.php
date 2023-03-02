@@ -45,11 +45,10 @@ class PatternTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$creditCardErrorArray = $errorArray["credit-card"];
-			self::assertCount(1, $creditCardErrorArray);
-			self::assertEquals(
+			$creditCardError = $errorArray["credit-card"];
+			self::assertSame(
 				"This field does not match the required pattern",
-				$creditCardErrorArray[0]
+				$creditCardError
 			);
 		}
 	}
@@ -68,15 +67,9 @@ class PatternTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(3, $errorArray);
-			$expiryMonthErrorArray = $errorArray["expiry-month"];
-			$expiryYearErrorArray = $errorArray["expiry-year"];
-			$amountErrorArray = $errorArray["amount"];
-			self::assertCount(1, $expiryMonthErrorArray);
-			self::assertCount(1, $expiryYearErrorArray);
-			self::assertCount(1, $amountErrorArray);
-			self::assertEquals($expiryMonthErrorArray[0], "This field is required");
-			self::assertEquals($expiryYearErrorArray[0], "This field is required");
-			self::assertEquals($amountErrorArray[0], "This field is required");
+			self::assertEquals($errorArray["expiry-month"], "This field is required");
+			self::assertEquals($errorArray["expiry-year"], "This field is required");
+			self::assertEquals($errorArray["amount"], "This field is required");
 		}
 	}
 
@@ -93,8 +86,8 @@ class PatternTest extends TestCase {
 		}
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
-			self::assertContains(
-				"This field does not match the required pattern: The 16 digit number on the front of your card",
+			self::assertSame(
+				"This field is required; This field does not match the required pattern: The 16 digit number on the front of your card",
 				$errorArray["credit-card"]
 			);
 		}

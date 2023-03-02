@@ -39,10 +39,9 @@ class TypeDateTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$dobErrorArray = $errorArray["dob"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a date in the format Y-m-d",
-				$dobErrorArray
+				$errorArray["dob"]
 			);
 		}
 	}
@@ -78,10 +77,9 @@ class TypeDateTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$monthErrorArray = $errorArray["month"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a month in the format Y-m",
-				$monthErrorArray
+				$errorArray["month"]
 			);
 		}
 	}
@@ -118,7 +116,7 @@ class TypeDateTest extends TestCase {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$monthErrorArray = $errorArray["week"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a week in the format Y-\WW",
 				$monthErrorArray
 			);
@@ -138,10 +136,9 @@ class TypeDateTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$monthErrorArray = $errorArray["week"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a week in the format Y-\WW",
-				$monthErrorArray
+				$errorArray["week"]
 			);
 		}
 	}
@@ -177,10 +174,9 @@ class TypeDateTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$monthErrorArray = $errorArray["datetime"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a datetime-local in the format Y-m-d\TH:i",
-				$monthErrorArray
+				$errorArray["datetime"]
 			);
 		}
 	}
@@ -216,10 +212,9 @@ class TypeDateTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$timeErrorArray = $errorArray["time"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a time in the format H:i",
-				$timeErrorArray
+				$errorArray["time"]
 			);
 		}
 	}

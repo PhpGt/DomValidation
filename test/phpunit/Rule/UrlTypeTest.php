@@ -41,10 +41,9 @@ class UrlTypeTest extends TestCase {
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$emailErrorArray = $errorArray["website"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a URL",
-				$emailErrorArray
+				$errorArray["website"]
 			);
 		}
 	}
