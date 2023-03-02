@@ -51,17 +51,14 @@ class Validator {
 
 	/**
 	 * @param array<Rule> $ruleArray
-	 * @param iterable<string>|object $inputKvp
+	 * @param array<string, string> $inputKvp
 	 */
 	protected function buildErrorList(
 		Element $form,
 		int|string $attrString,
 		array $ruleArray,
-		iterable|object $inputKvp,
+		array $inputKvp,
 	): void {
-		if(is_object($inputKvp)) {
-			$inputKvp = $this->convertObjectToKvp($inputKvp);
-		}
 		/** @var Element $element */
 		foreach ($form->querySelectorAll("[$attrString]") as $element) {
 			$name = $element->getAttribute("name");

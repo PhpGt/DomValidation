@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class FormValidatorTest extends TestCase {
+class ValidatorTest extends TestCase {
 	public function testSimpleValidInput() {
 		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
 		$form = $document->forms[0];
@@ -98,5 +98,61 @@ class FormValidatorTest extends TestCase {
 
 		$sut = new Validator();
 		$sut->validate($form, $inputObject);
+	}
+
+	public function testValidate_kvpObject():void {
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
+		$validator = new Validator();
+		$input = new stdClass();
+		$input->username = "g105b";
+		$input->password = "hunter222222";
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, $input);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testValidate_kvpTraversible():void {
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
+		$validator = new Validator();
+		$input = new class([
+			"username" => "g105b",
+			"password" => "hunter222222",
+		]) extends ArrayIterator {};
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, $input);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
+
+	public function testValidate_kvpObject_notStringable():void {
+		$document = new HTMLDocument(Helper::HTML_USERNAME_PASSWORD);
+		$form = $document->forms[0];
+		$validator = new Validator();
+		$input = new stdClass();
+		$input->username = "g105b";
+		$input->password = "hunter222222";
+		$input->somethingElse = new stdClass();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, $input);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
 	}
 }
