@@ -75,22 +75,7 @@ class TypeDate extends Rule {
 		}
 
 		if($type === "week") {
-			$success = preg_match(
-				"/^(?P<year>\d{4})-W(?P<week>\d{1,2})$/",
-				$value,
-				$matches
-			);
-			if(!$success) {
-				return null;
-			}
-
-			if($matches["week"] < 1 || $matches["week"] > 52) {
-				return null;
-			}
-
-			$dateTime = new DateTime();
-			$dateTime->setISODate((int)$matches["year"], (int)$matches["week"]);
-			return $dateTime;
+			return $this->extractDateTimeWeek($value);
 		}
 		else {
 			$format = match($type) {
@@ -106,5 +91,24 @@ class TypeDate extends Rule {
 
 			return DateTime::createFromFormat($format, $value) ?: null;
 		}
+	}
+
+	private function extractDateTimeWeek(string $value):?DateTime {
+		$success = preg_match(
+			"/^(?P<year>\d{4})-W(?P<week>\d{1,2})$/",
+			$value,
+			$matches
+		);
+		if(!$success) {
+			return null;
+		}
+
+		if($matches["week"] < 1 || $matches["week"] > 52) {
+			return null;
+		}
+
+		$dateTime = new DateTime();
+		$dateTime->setISODate((int)$matches["year"], (int)$matches["week"]);
+		return $dateTime;
 	}
 }
