@@ -3,6 +3,8 @@ namespace Gt\DomValidation;
 
 use Gt\Dom\Element;
 use Gt\DomValidation\Rule\Rule;
+use Stringable;
+use Traversable;
 
 class Validator {
 	protected ?ValidationRules $rules;
@@ -20,9 +22,8 @@ class Validator {
 	public function validate(Element $form, iterable|object $inputKvp):void {
 		$this->errorList = new ErrorList();
 
-		if(is_object($inputKvp) && method_exists($inputKvp, "asArray")) {
-			/** @var array<string, string> $inputKvp */
-			$inputKvp = $inputKvp->asArray();
+		if(is_object($inputKvp)) {
+			$inputKvp = $this->convertObjectToKvp($inputKvp);
 		}
 
 		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
@@ -48,23 +49,55 @@ class Validator {
 		return $this->errorList;
 	}
 
+	/**
+	 * @param array<Rule> $ruleArray
+	 * @param iterable<string>|object $inputKvp
+	 */
 	protected function buildErrorList(
 		Element $form,
 		int|string $attrString,
-		mixed $ruleArray,
+		array $ruleArray,
 		iterable|object $inputKvp,
 	): void {
+		if(is_object($inputKvp)) {
+			$inputKvp = $this->convertObjectToKvp($inputKvp);
+		}
+		/** @var Element $element */
 		foreach ($form->querySelectorAll("[$attrString]") as $element) {
 			$name = $element->getAttribute("name");
 
 			foreach ($ruleArray as $rule) {
 				if (!$rule->isValid($element, $inputKvp[$name] ?? "", $inputKvp)) {
 					$this->errorList->add(
-					$element,
-					$rule->getHint($element, $inputKvp[$name] ?? "")
+						$element,
+						$rule->getHint($element, $inputKvp[$name] ?? "")
 					);
 				}
 			}
 		}
+	}
+
+	/** @return array<string, string> */
+	private function convertObjectToKvp(object $obj):array {
+		if(method_exists($obj, "toArray")) {
+			return $obj->toArray();
+		}
+
+		if($obj instanceof Traversable) {
+			return iterator_to_array($obj);
+		}
+
+		$array = [];
+		foreach(get_object_vars($obj) as $key => $value) {
+			if(is_scalar($value) || $value instanceof Stringable) {
+				$value = (string)$value;
+			}
+			else {
+				$value = "";
+			}
+
+			$array[$key] = $value;
+		}
+		return $array;
 	}
 }

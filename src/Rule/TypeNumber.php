@@ -15,83 +15,124 @@ class TypeNumber extends Rule {
 		string $value,
 		array $inputKvp,
 	):bool {
-		list($min, $max, $step) = $this->extractMinMaxStep($element);
-
 		if($value === "") {
-			$validity = true;
+			return true;
 		}
-		elseif(is_numeric($value)) {
+
+		if(is_numeric($value)) {
 			$value = (float)$value;
 
-			if(!is_null($min)
-				&& $value < $min) {
-				$validity = false;
+			if(false === $this->isValidMin(
+				(float)$element->getAttribute("min"),
+				$value,
+			)) {
+				return false;
 			}
-			elseif(!is_null($max)
-				&& $value > $max) {
-				$validity = false;
+			if(false === $this->isValidMax(
+				(float)$element->getAttribute("max"),
+				$value,
+			)) {
+				return false;
 			}
-			elseif(!is_null($step)) {
-				if($min) {
-					$validity = ($value - $min) % $step === 0;
-				}
-				else {
-					$validity = $value % $step === 0;
-				}
-
-			}
-			else {
-				$validity = true;
+			if(false === $this->isValidStep(
+				(float)$element->getAttribute("min"),
+				(float)$element->getAttribute("step"),
+				$value,
+			)) {
+				return false;
 			}
 		}
-		else {
-			$validity = false;
-		}
 
-		return $validity;
+		return true;
 	}
 
 	public function getHint(Element $element, string $value):string {
-		list($min, $max, $step) = $this->extractMinMaxStep($element);
-
 		if(!is_numeric($value)) {
 			return "Field must be a number";
 		}
 
 		$value = (float)$value;
 
-		if(!is_null($min) && $value < $min) {
-			return "Field value must not be less than $min";
+		if($message = $this->getHintMinMax(
+			$value,
+			(float)$element->getAttribute("min"),
+			(float)$element->getAttribute("max"),
+		)) {
+			return $message;
 		}
-		elseif(!is_null($max) && $value > $max) {
-			return "Field value must not be greater than $max";
-		}
-		elseif(!is_null($step)) {
-			if(!is_null($min) && ($value - $min) % $step !== 0) {
-				return "Field value must be $min plus a multiple of $step";
-			}
-			elseif($value % $step !== 0) {
-				return "Field value must be a multiple of $step";
-			}
+
+		if($message = $this->getHintStep(
+			$value,
+			(float)$element->getAttribute("min"),
+			(float)$element->getAttribute("step"),
+		)) {
+			return $message;
 		}
 
 		return "";
 	}
 
-	/**
-	 * @param Element $element
-	 * @return array
-	 */
-	protected function extractMinMaxStep(Element $element):array {
-		if($min = $element->getAttribute("min") ?: null) {
-			$min = (float)$min;
+	private function getHintMinMax(
+		float $value,
+		?float $min,
+		?float $max,
+	):?string {
+		if(!is_null($min)) {
+			if($value < $min) {
+				return "Field must not be less than $min";
+			}
 		}
-		if($max = $element->getAttribute("max") ?: null) {
-			$max = (float)$max;
+		if(!is_null($max)) {
+			if($value > $max) {
+				return "Field must not be more than $max";
+			}
 		}
-		if($step = $element->getAttribute("step") ?: null) {
-			$step = (float)$step;
+
+		return null;
+	}
+
+	private function getHintStep(
+		float $value,
+		?float $min,
+		?float $step,
+	):?string {
+		if(!is_null($min)) {
+			if(($value - $min) % $step !== 0) {
+				return "Field value must be $min plus a multiple of $step";
+			}
 		}
-		return array($min, $max, $step);
+
+		if($value % $step !== 0) {
+			return "Field value must be a multiple of $step";
+		}
+
+		return null;
+	}
+
+	private function isValidMin(?float $min, float $value):bool {
+		if(is_null($min)) {
+			return true;
+		}
+
+		return $value >= $min;
+	}
+
+	private function isValidMax(?float $max, float $value):bool {
+		if(is_null($max)) {
+			return true;
+		}
+
+		return $value <= $max;
+	}
+
+	private function isValidStep(?float $min, ?float $step, float $value):bool {
+		if(is_null($step)) {
+			return true;
+		}
+		if(is_null($min)) {
+			return $value % $step === 0;
+		}
+
+		return ($value - $min) % $step === 0;
 	}
 }
