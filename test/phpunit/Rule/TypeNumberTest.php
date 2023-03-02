@@ -89,7 +89,7 @@ class TypeNumberTest extends TestCase {
 				"amount" => "100",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$expiryMonthError = $errorArray["expiry-month"];
@@ -203,15 +203,15 @@ class TypeNumberTest extends TestCase {
 
 		try {
 			$validator->validate($form, [
-				"step2" => -4,
+				"step2" => "-4",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
 			$step1Error = $errorArray["step2"];
 			self::assertContains(
-				"Field value must not be less than 2",
+				"Field value must not be lower than 2",
 				$step1Error
 			);
 		}
@@ -250,7 +250,7 @@ class TypeNumberTest extends TestCase {
 			self::assertCount(1, $errorArray);
 			$step1Error = $errorArray["step3"];
 			self::assertContains(
-				"Field value must not be greater than 25.1",
+				"Field value must not be higher than 25.1",
 				$step1Error
 			);
 		}
@@ -289,7 +289,7 @@ class TypeNumberTest extends TestCase {
 			self::assertCount(1, $errorArray);
 			$step1Error = $errorArray["step4"];
 			self::assertContains(
-				"Field value must not be greater than 25.1",
+				"Field value must not be higher than 25.1",
 				$step1Error
 			);
 		}

@@ -10,88 +10,139 @@ class TypeNumber extends Rule {
 		"type=range",
 	];
 
-	public function isValid(Element $element, string $value, array $inputKvp):bool {
-		if($min = $element->getAttribute("min") ?: null) {
-			$min = (float)$min;
-		}
-		if($max = $element->getAttribute("max") ?: null) {
-			$max = (float)$max;
-		}
-		if($step = $element->getAttribute("step") ?: null) {
-			$step = (float)$step;
-		}
-
+	public function isValid(
+		Element $element,
+		string $value,
+		array $inputKvp,
+	):bool {
 		if($value === "") {
-			$validity = true;
+			return true;
 		}
-		elseif(is_numeric($value)) {
-			$value = (float)$value;
-
-			if(!is_null($min)
-			&& $value < $min) {
-				$validity = false;
-			}
-			elseif(!is_null($max)
-			&& $value > $max) {
-				$validity = false;
-			}
-			elseif(!is_null($step)) {
-				if($min) {
-					$validity = ($value - $min) % $step === 0;
-				}
-				else {
-					$validity = $value % $step === 0;
-				}
-
-			}
-			else {
-				$validity = true;
-			}
-		}
-		else {
-			$validity = false;
-		}
-
-		return $validity;
-	}
-
-	public function getHint(Element $element, string $value):string {
-		if($min = $element->getAttribute("min") ?: null) {
-			$min = (float)$min;
-		}
-		if($max = $element->getAttribute("max") ?: null) {
-			$max = (float)$max;
-		}
-		if($step = $element->getAttribute("step") ?: null) {
-			$step = (float)$step;
-		}
-		$hint = "";
 
 		if(is_numeric($value)) {
 			$value = (float)$value;
 
-			if(!is_null($min)
-			&& $value < $min) {
-				$hint = "Field value must not be less than $min";
+			if(false === $this->isValidMin(
+				$element->getAttribute("min"),
+				$value,
+			)) {
+				return false;
 			}
-			elseif(!is_null($max)
-			&& $value > $max) {
-				$hint = "Field value must not be greater than $max";
+			if(false === $this->isValidMax(
+				$element->getAttribute("max"),
+				$value,
+			)) {
+				return false;
 			}
-			elseif(!is_null($step)) {
-				if(!is_null($min)
-				&& ($value - $min) % $step !== 0) {
-					$hint = "Field value must be $min plus a multiple of $step";
-				}
-				elseif($value % $step !== 0) {
-					$hint = "Field value must be a multiple of $step";
-				}
+			if(false === $this->isValidStep(
+				$element->getAttribute("min"),
+				$element->getAttribute("step"),
+				$value,
+			)) {
+				return false;
 			}
 		}
 		else {
-			$hint = "Field must be a number";
+			return false;
 		}
 
-		return $hint;
+		return true;
+	}
+
+	public function getHint(Element $element, string $value):string {
+		if(!is_numeric($value)) {
+			return "Field must be a number";
+		}
+
+		$value = (float)$value;
+
+		if($message = $this->getHintMinMax(
+			$value,
+			$element->getAttribute("min"),
+			$element->getAttribute("max"),
+		)) {
+			return $message;
+		}
+
+		if($message = $this->getHintStep(
+			$value,
+			$element->getAttribute("min"),
+			$element->getAttribute("step"),
+		)) {
+			return $message;
+		}
+
+		return "";
+	}
+
+	private function getHintMinMax(
+		float $value,
+		?string $min,
+		?string $max,
+	):?string {
+		if(!is_null($min)) {
+			if($value < $min) {
+				return "Field value must not be lower than $min";
+			}
+		}
+		if(!is_null($max)) {
+			if($value > $max) {
+				return "Field value must not be higher than $max";
+			}
+		}
+
+		return null;
+	}
+
+	private function getHintStep(
+		float $value,
+		?string $min,
+		?string $step,
+	):?string {
+		if(!is_null($min)) {
+			$min = (float)$min;
+
+			if(($value - $min) % $step !== 0) {
+				return "Field value must be $min plus a multiple of $step";
+			}
+		}
+
+		if($step && $value % $step !== 0) {
+			return "Field value must be a multiple of $step";
+		}
+
+		return null;
+	}
+
+	private function isValidMin(?string $min, float $value):bool {
+		if(is_null($min)) {
+			return true;
+		}
+		$min = (float)$min;
+
+		return $value >= $min;
+	}
+
+	private function isValidMax(?string $max, float $value):bool {
+		if(is_null($max)) {
+			return true;
+		}
+		$max = (float)$max;
+
+		return $value <= $max;
+	}
+
+	private function isValidStep(?string $min, ?string $step, float $value):bool {
+		if(!$step) {
+			return true;
+		}
+		$step = (float)$step;
+
+		if(is_null($min)) {
+			return $value % $step === 0;
+		}
+		$min = (float)$min;
+
+		return ($value - $min) % $step === 0;
 	}
 }
