@@ -1,13 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
+use Gt\Dom\Element;
+use Gt\Dom\ElementType;
 use Gt\Dom\HTMLDocument;
+use Gt\DomValidation\Rule\TypeRadio;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
 use PHPUnit\Framework\TestCase;
 
-class RadioElementTest extends TestCase {
+class TypeRadioTest extends TestCase {
 	public function testRadio() {
 		$document = new HTMLDocument(Helper::HTML_RADIO);
 		$form = $document->forms[0];
@@ -83,5 +86,15 @@ class RadioElementTest extends TestCase {
 				$errorArray["sort"]
 			);
 		}
+	}
+
+	public function testIsValid_noForm() {
+		$document = new HTMLDocument();
+		$element = $document->createElement("input");
+		$element->type = "radio";
+		$sut = new TypeRadio();
+
+		$validity = $sut->isValid($element, "anything", []);
+		self::assertTrue($validity);
 	}
 }

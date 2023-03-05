@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="PHP.Gt Standard" namespace="Gt\CS\Standard">
+	<file>./src</file>
+
 	<description>Created from PHP.Gt/Styleguide</description>
 	<arg name="extensions" value="php" />
 

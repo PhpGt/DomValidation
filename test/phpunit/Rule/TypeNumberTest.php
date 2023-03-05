@@ -1,7 +1,9 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
+use Gt\Dom\Element;
 use Gt\Dom\HTMLDocument;
+use Gt\DomValidation\Rule\TypeNumber;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
@@ -285,5 +287,14 @@ class TypeNumberTest extends TestCase {
 				$errorArray["step4"]
 			);
 		}
+	}
+
+	public function testGetHint_ok() {
+		$element = self::createMock(Element::class);
+		$element->method("getAttribute")
+			->willReturn(null);
+
+		$sut = new TypeNumber();
+		self::assertEmpty($sut->getHint($element, 1));
 	}
 }

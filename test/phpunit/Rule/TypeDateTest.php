@@ -218,4 +218,39 @@ class TypeDateTest extends TestCase {
 			);
 		}
 	}
+
+	public function testTypeAttributeMissing() {
+		$document = new HTMLDocument("<form><input name='time' /></form>");
+		$form = $document->forms[0];
+		$validator = new Validator();
+
+		$exception = null;
+		try {
+			$validator->validate($form, [
+				"time" => "3:37pm",
+			]);
+		}
+		catch(ValidationException $exception) {}
+		self::assertNull($exception);
+	}
+
+	public function testTypeNotKnown() {
+		$document = new HTMLDocument(Helper::HTML_DATE_TIME);
+		$form = $document->forms[0];
+		$timeInput = $form->querySelector("[type='time']");
+		$timeInput->type = "unknown";
+
+		$validator = new Validator();
+
+		$exception = null;
+
+		try {
+			$validator->validate($form, [
+				"time" => "3:37pm",
+			]);
+		}
+		catch(ValidationException $exception) {}
+
+		self::assertNull($exception);
+	}
 }
