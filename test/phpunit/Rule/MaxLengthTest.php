@@ -38,7 +38,7 @@ class MaxLengthTest extends TestCase {
 		}
 		catch(ValidationException $exception) {
 			$errorList = iterator_to_array($validator->getLastErrorList());
-			self::assertContains(
+			self::assertSame(
 				"This field's value must not contain more than 120 characters",
 				$errorList["tweet"]
 			);

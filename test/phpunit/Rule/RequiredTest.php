@@ -42,9 +42,8 @@ class RequiredTest extends TestCase {
 			$validator->validate($form, ["username" => "g105b"]);
 		}
 		catch(ValidationException $exception) {
-			foreach($validator->getLastErrorList() as $name => $errors) {
-				self::assertIsArray($errors);
-				self::assertContains("This field is required", $errors);
+			foreach($validator->getLastErrorList() as $error) {
+				self::assertSame("This field is required; This field's value must contain at least 12 characters", $error);
 			}
 		}
 	}
@@ -61,10 +60,9 @@ class RequiredTest extends TestCase {
 			]);
 		}
 		catch(ValidationException $exception) {
-			foreach($validator->getLastErrorList() as $name => $errors) {
-				self::assertIsArray($errors);
-				self::assertContains("This field is required", $errors);
-				self::assertEquals("password", $name);
+			foreach($validator->getLastErrorList() as $name => $error) {
+				self::assertSame("This field is required; This field's value must contain at least 12 characters", $error);
+				self::assertSame("password", $name);
 			}
 		}
 	}

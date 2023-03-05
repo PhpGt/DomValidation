@@ -70,10 +70,9 @@ class ValidatorTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$passwordErrorArray = $errorArray["password"];
-			self::assertContains(
+			self::assertSame(
 				"The password must not contain the username",
-				$passwordErrorArray,
+				$errorArray["password"],
 			);
 		}
 

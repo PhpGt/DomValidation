@@ -5,7 +5,7 @@ use Countable;
 use Gt\Dom\Element;
 use Iterator;
 
-/** @implements Iterator<string, string[]> */
+/** @implements Iterator<string, string> */
 class ErrorList implements Countable, Iterator {
 	/** @var array<string, string[]> */
 	protected array $errorArray;
@@ -38,9 +38,12 @@ class ErrorList implements Countable, Iterator {
 		return isset($keys[$this->iteratorKey]);
 	}
 
-	public function current():array {
+	public function current():string {
 		$keys = array_keys($this->errorArray);
-		return $this->errorArray[$keys[$this->iteratorKey]];
+		return implode(
+			"; ",
+			array_unique($this->errorArray[$keys[$this->iteratorKey]] ?? [])
+		);
 	}
 
 	public function next():void {
