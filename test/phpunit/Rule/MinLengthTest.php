@@ -40,7 +40,7 @@ class MinLengthTest extends TestCase {
 		}
 		catch(ValidationException $exception) {
 			$errorList = iterator_to_array($validator->getLastErrorList());
-			self::assertContains(
+			self::assertSame(
 				"This field's value must contain at least 12 characters",
 				$errorList["password"]
 			);

@@ -68,12 +68,8 @@ class TypeDate extends Rule {
 
 	private function extractDateTime(
 		string $value,
-		?string $type,
+		string $type,
 	):?DateTime {
-		if(is_null($type)) {
-			return null;
-		}
-
 		if($type === "week") {
 			return $this->extractDateTimeWeek($value);
 		}
@@ -83,11 +79,8 @@ class TypeDate extends Rule {
 				"month" => self::FORMAT_MONTH,
 				"datetime-local" => self::FORMAT_DATETIME_LOCAL,
 				"time" => self::FORMAT_TIME,
-				default => null,
+				default => "",
 			};
-			if(!$format) {
-				return null;
-			}
 
 			return DateTime::createFromFormat($format, $value) ?: null;
 		}
