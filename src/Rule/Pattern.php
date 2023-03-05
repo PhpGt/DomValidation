@@ -18,7 +18,7 @@ class Pattern extends Rule {
 	}
 
 	public function getHint(Element $element, string $value):string {
-		$hint = "This field's value ($value) does not match the required pattern";
+		$hint = "This field does not match the required pattern";
 
 		if($title = $element->getAttribute("title")) {
 			$hint .= ": $title";
