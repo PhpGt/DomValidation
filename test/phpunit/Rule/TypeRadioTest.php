@@ -1,13 +1,16 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
+use Gt\Dom\Element;
+use Gt\Dom\ElementType;
 use Gt\Dom\HTMLDocument;
+use Gt\DomValidation\Rule\TypeRadio;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
 use PHPUnit\Framework\TestCase;
 
-class RadioElementTest extends TestCase {
+class TypeRadioTest extends TestCase {
 	public function testRadio() {
 		$document = new HTMLDocument(Helper::HTML_RADIO);
 		$form = $document->forms[0];
@@ -38,11 +41,9 @@ class RadioElementTest extends TestCase {
 		}
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
-			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["currency"];
-			self::assertContains(
+			self::assertSame(
 				"This field is required",
-				$currencyErrorArray
+				$errorArray["currency"],
 			);
 		}
 	}
@@ -80,11 +81,20 @@ class RadioElementTest extends TestCase {
 		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$currencyErrorArray = $errorArray["sort"];
-			self::assertContains(
+			self::assertSame(
 				"This field's value must match one of the available options",
-				$currencyErrorArray
+				$errorArray["sort"]
 			);
 		}
+	}
+
+	public function testIsValid_noForm() {
+		$document = new HTMLDocument();
+		$element = $document->createElement("input");
+		$element->type = "radio";
+		$sut = new TypeRadio();
+
+		$validity = $sut->isValid($element, "anything", []);
+		self::assertTrue($validity);
 	}
 }

@@ -3,6 +3,8 @@ namespace Gt\DomValidation;
 
 use Gt\Dom\Element;
 use Gt\DomValidation\Rule\Rule;
+use Stringable;
+use Traversable;
 
 class Validator {
 	protected ?ValidationRules $rules;
@@ -16,35 +18,83 @@ class Validator {
 		$this->rules = $rules;
 	}
 
-	/** @param array<string, string> $inputKvp Associative array of user input */
-	public function validate(Element $form, array $inputKvp):void {
+	/** @param iterable<string, string> $inputKvp Associative array of user input */
+	public function validate(Element $form, iterable|object $inputKvp):void {
 		$this->errorList = new ErrorList();
 
-		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
-			/** @var Element $element */
-			foreach($form->querySelectorAll("[$attrString]") as $element) {
-				$name = $element->getAttribute("name");
+		if(is_object($inputKvp)) {
+			$inputKvp = $this->convertObjectToKvp($inputKvp);
+		}
 
-				foreach($ruleArray as $rule) {
-					if(!$rule->isValid($element, $inputKvp[$name] ?? "", $inputKvp)) {
-						$this->errorList->add(
-							$element,
-							$rule->getHint($element, $inputKvp[$name] ?? "")
-						);
-					}
-				}
-			}
+		foreach($this->rules?->getAttributeRuleList() ?? [] as $attrString => $ruleArray) {
+			$this->buildErrorList(
+				$form,
+				$attrString,
+				$ruleArray,
+				$inputKvp
+			);
 		}
 
 		$errorCount = count($this->errorList);
 		if($errorCount > 0) {
 			$collectiveNoun = $errorCount === 1 ? "is" : "are";
 			$fieldWord = $errorCount === 1 ? "field" : "fields";
-			throw new ValidationException("There $collectiveNoun $errorCount invalid $fieldWord");
+			throw new ValidationException(
+				"There $collectiveNoun $errorCount invalid $fieldWord"
+			);
 		}
 	}
 
 	public function getLastErrorList():ErrorList {
 		return $this->errorList;
+	}
+
+	/**
+	 * @param array<Rule> $ruleArray
+	 * @param array<string, string> $inputKvp
+	 */
+	protected function buildErrorList(
+		Element $form,
+		int|string $attrString,
+		array $ruleArray,
+		array $inputKvp,
+	): void {
+		/** @var Element $element */
+		foreach ($form->querySelectorAll("[$attrString]") as $element) {
+			$name = $element->getAttribute("name");
+
+			foreach ($ruleArray as $rule) {
+				if (!$rule->isValid($element, $inputKvp[$name] ?? "", $inputKvp)) {
+					$this->errorList->add(
+						$element,
+						$rule->getHint($element, $inputKvp[$name] ?? "")
+					);
+				}
+			}
+		}
+	}
+
+	/** @return array<string, string> */
+	private function convertObjectToKvp(object $obj):array {
+		if(method_exists($obj, "asArray")) {
+			return $obj->asArray();
+		}
+
+		if($obj instanceof Traversable) {
+			return iterator_to_array($obj);
+		}
+
+		$array = [];
+		foreach(get_object_vars($obj) as $key => $value) {
+			if(is_scalar($value) || $value instanceof Stringable) {
+				$value = (string)$value;
+			}
+			else {
+				$value = "";
+			}
+
+			$array[$key] = $value;
+		}
+		return $array;
 	}
 }

@@ -10,7 +10,7 @@ This repository performs W3C form validation for projects that have a [server-si
 <a href="https://github.com/PhpGt/DomValidation/actions" target="_blank">
 	<img src="https://badge.status.php.gt/domvalidation-build.svg" alt="Build status" />
 </a>
-<a href="https://scrutinizer-ci.com/g/PhpGt/DomValidation" target="_blank">
+<a href="https://app.codacy.com/gh/PhpGt/DomValidation" target="_blank">
 	<img src="https://badge.status.php.gt/domvalidation-quality.svg" alt="Code quality" />
 </a>
 <a href="https://app.codecov.io/gh/PhpGt/DomValidation" target="_blank">

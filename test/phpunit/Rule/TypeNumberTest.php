@@ -1,7 +1,9 @@
 <?php
 namespace Gt\DomValidation\Test\Rule;
 
+use Gt\Dom\Element;
 use Gt\Dom\HTMLDocument;
+use Gt\DomValidation\Rule\TypeNumber;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
 use Gt\DomValidation\Validator;
@@ -89,13 +91,12 @@ class TypeNumberTest extends TestCase {
 				"amount" => "100",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$expiryMonthError = $errorArray["expiry-month"];
-			self::assertContains(
+			self::assertSame(
 				"Field must be a number",
-				$expiryMonthError
+				$errorArray["expiry-month"]
 			);
 		}
 	}
@@ -131,10 +132,9 @@ class TypeNumberTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$step1Error = $errorArray["step1"];
-			self::assertContains(
+			self::assertSame(
 				"Field value must be a multiple of 7",
-				$step1Error
+				$errorArray["step1"]
 			);
 		}
 	}
@@ -188,10 +188,9 @@ class TypeNumberTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$step1Error = $errorArray["step2"];
-			self::assertContains(
+			self::assertSame(
 				"Field value must be 2 plus a multiple of 7",
-				$step1Error
+				$errorArray["step2"]
 			);
 		}
 	}
@@ -203,16 +202,15 @@ class TypeNumberTest extends TestCase {
 
 		try {
 			$validator->validate($form, [
-				"step2" => -4,
+				"step2" => "-4",
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$step1Error = $errorArray["step2"];
-			self::assertContains(
-				"Field value must not be less than 2",
-				$step1Error
+			self::assertSame(
+				"Field value must not be lower than 2",
+				$errorArray["step2"]
 			);
 		}
 	}
@@ -229,8 +227,7 @@ class TypeNumberTest extends TestCase {
 				"step3" => 7.2 * 3, // within range
 			]);
 		}
-		catch(ValidationException $exception) {
-		}
+		catch(ValidationException $exception) {}
 
 		self::assertNull($exception);
 	}
@@ -248,10 +245,9 @@ class TypeNumberTest extends TestCase {
 		catch(ValidationException $exception) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
 			self::assertCount(1, $errorArray);
-			$step1Error = $errorArray["step3"];
-			self::assertContains(
-				"Field value must not be greater than 25.1",
-				$step1Error
+			self::assertSame(
+				"Field value must not be higher than 25.1",
+				$errorArray["step3"]
 			);
 		}
 	}
@@ -284,14 +280,21 @@ class TypeNumberTest extends TestCase {
 				"step4" => 3.5 + (7.2 * 4),
 			]);
 		}
-		catch(ValidationException $exception) {
+		catch(ValidationException) {
 			$errorArray = iterator_to_array($validator->getLastErrorList());
-			self::assertCount(1, $errorArray);
-			$step1Error = $errorArray["step4"];
-			self::assertContains(
-				"Field value must not be greater than 25.1",
-				$step1Error
+			self::assertSame(
+				"Field value must not be higher than 25.1",
+				$errorArray["step4"]
 			);
 		}
+	}
+
+	public function testGetHint_ok() {
+		$element = self::createMock(Element::class);
+		$element->method("getAttribute")
+			->willReturn(null);
+
+		$sut = new TypeNumber();
+		self::assertEmpty($sut->getHint($element, 1));
 	}
 }
