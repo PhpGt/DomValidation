@@ -4,6 +4,7 @@ namespace Gt\DomValidation\Test\Rule;
 use Gt\Dom\Element;
 use Gt\Dom\ElementType;
 use Gt\Dom\HTMLDocument;
+use Gt\DomValidation\Rule\TypeCheckbox;
 use Gt\DomValidation\Rule\TypeRadio;
 use Gt\DomValidation\Test\Helper\Helper;
 use Gt\DomValidation\ValidationException;
@@ -70,7 +71,7 @@ class TypeCheckboxTest extends TestCase {
 		$document = new HTMLDocument();
 		$element = $document->createElement("input");
 		$element->type = "checkbox";
-		$sut = new TypeRadio();
+		$sut = new TypeCheckbox();
 
 		$validity = $sut->isValid($element, "anything", []);
 		self::assertTrue($validity);
